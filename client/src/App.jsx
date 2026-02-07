@@ -41,9 +41,13 @@ function App() {
             .then(data => setBranding(data))
             .catch(err => console.error(err));
 
-        socket.on('update-room', (data) => setRoomData(data));
+        socket.on('update-room', (data) => {
+            console.log('[CLIENT] Received update-room:', data);
+            setRoomData(data);
+        });
 
         socket.on('game-state-change', (data) => {
+            console.log('[CLIENT] Received game-state-change:', data);
             if (data.action === 'playing') setGameState('game');
             if (data.action === 'podium') {
                 setPodiumData(data.ranking);
@@ -51,7 +55,10 @@ function App() {
             }
         });
 
-        socket.on('new-question', (q) => setQuestion(q));
+        socket.on('new-question', (q) => {
+            console.log('[CLIENT] Received new-question:', q);
+            setQuestion(q);
+        });
 
         socket.on('power-effect', (data) => {
             if (data.targetId === socket.id) {
@@ -91,6 +98,7 @@ function App() {
 
     const joinGame = () => {
         if (user.username && user.pin) {
+            console.log('[CLIENT] Joining game:', user);
             socket.emit('join-game', user);
             setGameState('waiting');
         }

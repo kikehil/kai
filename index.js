@@ -128,6 +128,9 @@ io.on('connection', (socket) => {
 
     socket.on('join-game', async ({ pin, username }) => {
         if (!pin || !username) return;
+
+        console.log(`[JOIN] ${username} (${socket.id}) joining room ${pin}`);
+
         socket.join(pin);
 
         if (username === 'ADMIN') {
@@ -142,6 +145,7 @@ io.on('connection', (socket) => {
 
         if (!games[pin]) {
             games[pin] = { users: {}, status: 'waiting' };
+            console.log(`[ROOM CREATED] Room ${pin} created`);
         }
 
         games[pin].users[socket.id] = {
@@ -154,8 +158,14 @@ io.on('connection', (socket) => {
             streak: 0
         };
 
+        // Ordenar usuarios por score antes de enviar
+        const sortedUsers = Object.values(games[pin].users).sort((a, b) => b.score - a.score);
+
+        console.log(`[ROOM UPDATE] Room ${pin} now has ${sortedUsers.length} users:`, sortedUsers.map(u => u.username));
+
+        // Emitir a TODA la sala incluyendo el usuario que acaba de unirse
         io.to(pin).emit('update-room', {
-            users: Object.values(games[pin].users),
+            users: sortedUsers,
             pin
         });
     });
@@ -342,6 +352,10 @@ io.on('connection', (socket) => {
         if (action === 'launch-question') {
             if (games[pin]) {
                 games[pin].currentRound = { startTime: Date.now(), active: true, answers: {} };
+                console.log(`[LAUNCH QUESTION] Initializing round for room ${pin}`);
+            } else {
+                console.log(`[ERROR] Room ${pin} does not exist`);
+                return;
             }
             try {
                 // Fixed table name from preguntas_reto to retos_preguntas
@@ -349,6 +363,11 @@ io.on('connection', (socket) => {
                 if (rows.length > 0) {
                     const q = rows[0];
                     // Options are columns now, not JSON
+
+                    // Get all sockets in the room for debugging
+                    const socketsInRoom = await io.in(pin).fetchSockets();
+                    console.log(`[LAUNCH QUESTION] Sending question ${q.id} to room ${pin}`);
+                    console.log(`[LAUNCH QUESTION] Sockets in room:`, socketsInRoom.map(s => s.id));
 
                     io.to(pin).emit('game-state-change', { action: 'playing' });
                     io.to(pin).emit('new-question', {
@@ -362,10 +381,13 @@ io.on('connection', (socket) => {
                         time_limit: q.tiempo_limite || 45
                     });
 
-                    console.log(`Launched Q:${q.id} Room:${pin}`);
+                    console.log(`[LAUNCH QUESTION] Question sent successfully to ${socketsInRoom.length} sockets`);
 
                     setTimeout(() => {
-                        if (games[pin] && games[pin].currentRound) games[pin].currentRound.active = false;
+                        if (games[pin] && games[pin].currentRound) {
+                            games[pin].currentRound.active = false;
+                            console.log(`[TIMEOUT] Question timeout for room ${pin}`);
+                        }
                         io.to(pin).emit('question-timeout', { message: 'Tiempo agotado' });
                     }, (q.tiempo_limite || 45) * 1000);
                 }
