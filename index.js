@@ -172,13 +172,26 @@ io.on('connection', (socket) => {
 
     socket.on('send-answer', ({ pin, isCorrect }) => {
         const room = games[pin];
-        if (!room || !room.users[socket.id]) return;
+
+        console.log(`[SEND-ANSWER] User ${socket.id} attempting to answer in room ${pin}`);
+        console.log(`[SEND-ANSWER] Room exists:`, !!room);
+        console.log(`[SEND-ANSWER] User in room:`, !!room?.users[socket.id]);
+
+        if (!room || !room.users[socket.id]) {
+            console.log(`[SEND-ANSWER] ERROR: Room or user not found`);
+            return;
+        }
 
         const user = room.users[socket.id];
         user.streak = user.streak || 0; // Ensure streak init
 
+        console.log(`[SEND-ANSWER] Current round exists:`, !!room.currentRound);
+        console.log(`[SEND-ANSWER] Round active:`, room.currentRound?.active);
+        console.log(`[SEND-ANSWER] Round data:`, room.currentRound);
+
         // Prevent answer if round not active
         if (!room.currentRound || !room.currentRound.active) {
+            console.log(`[SEND-ANSWER] ERROR: Round not active for user ${user.username}`);
             socket.emit('error', 'La ronda no está activa.');
             return;
         }
