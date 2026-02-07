@@ -6,7 +6,8 @@ import FinalPodium from './FinalPodium.jsx';
 import Modal from './Modal.jsx';
 
 // Use dynamic hostname to allow mobile connection via IP
-const socket = io(`http://${window.location.hostname}:3000`);
+const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000' : window.location.origin;
+const socket = io(API_BASE);
 
 function App() {
     const [gameState, setGameState] = useState('lobby'); // lobby, waiting, game, podium
@@ -35,7 +36,7 @@ function App() {
     const closeModal = () => setModal({ ...modal, show: false });
 
     useEffect(() => {
-        fetch(`http://${window.location.hostname}:3000/api/config`)
+        fetch(`${API_BASE}/api/config`)
             .then(res => res.json())
             .then(data => setBranding(data))
             .catch(err => console.error(err));

@@ -18,7 +18,8 @@ import Modal from './Modal.jsx';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 // Use dynamic hostname to allow mobile connection via IP
-const socket = io(`http://${window.location.hostname}:3000`);
+const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000' : window.location.origin;
+const socket = io(API_BASE);
 
 function AdminPanel() {
     const [pin, setPin] = useState('');
@@ -350,7 +351,7 @@ function ExcelImport({ showModal }) {
     const handleConfirmImport = async () => {
         setUploading(true);
         try {
-            const res = await fetch(`http://${window.location.hostname}:3000/api/import-questions`, {
+            const res = await fetch(`${API_BASE}/api/import-questions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(previewData)
@@ -459,7 +460,7 @@ function NewQuestionForm({ showModal }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await fetch(`http://${window.location.hostname}:3000/api/questions`, {
+            await fetch(`${API_BASE}/api/questions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
