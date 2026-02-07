@@ -142,9 +142,15 @@ function AdminPanel() {
                     <img src={`http://${window.location.hostname}:3000/logo.svg`} className="h-10 drop-shadow-[0_0_8px_rgba(255,242,0,0.6)]" />
                     <span className="font-bold text-gray-400 border-l border-gray-600 pl-4 ml-4">GOD MODE</span>
                 </div>
-                <div className="flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-full border border-gray-700">
-                    <span className="h-3 w-3 rounded-full bg-green-500 animate-pulse"></span>
-                    <span className="font-bold">{roomUsers.length} Conectados</span>
+                <div className="flex items-center gap-4">
+                    {/* Total de Jugadores (sin ADMIN) */}
+                    <div className="flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-full border border-gray-700">
+                        <span className="h-3 w-3 rounded-full bg-green-500 animate-pulse"></span>
+                        <div className="flex flex-col">
+                            <span className="font-bold text-lg">{roomUsers.length}</span>
+                            <span className="text-xs text-gray-400 -mt-1">Jugadores</span>
+                        </div>
+                    </div>
                 </div>
             </header>
 
