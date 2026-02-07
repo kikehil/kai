@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .frozen-overlay {
+    @apply fixed inset-0 bg-blue-300/50 z-50 flex items-center justify-center backdrop-blur-sm pointer-events-none;
+  }
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #E51A22;
+}
+
+/* Logo Pulse Animation */
+@keyframes pulse-energy {
+  0% {
+    filter: drop-shadow(0 0 5px #FFF200);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 20px #FFF200);
+  }
+
+  100% {
+    filter: drop-shadow(0 0 5px #FFF200);
+  }
+}
+
+.logo-zuynch {
+  animation: pulse-energy 2s infinite;
+}
+
+/* Projector Styles */
+.card-pregunta-proyector {
+  border-left: 10px solid #E51A22;
+  /* El Rojo OXXO como acento */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: all 0.5s ease;
+}
+
+.card-pregunta-proyector:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(229, 26, 34, 0.3);
+}
+
+.votos-badge {
+  background-color: #FFF200;
+  /* El Amarillo de energía */
+  color: #1A1A1A;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 50px;
+}

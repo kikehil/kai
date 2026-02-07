@@ -1,0 +1,17 @@
+{
+    "name": "realtime-trivia-server",
+    "version": "1.0.0",
+    "description": "Real-time trivia server with Express, MySQL and Socket.io",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "node --watch index.js",
+        "setup-db": "node setup_db.js"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "mysql2": "^3.9.1",
+        "socket.io": "^4.7.4"
+    }
+}
