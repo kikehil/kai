@@ -356,16 +356,24 @@ function ExcelImport({ showModal }) {
     };
 
     const handleConfirmImport = async () => {
+        if (!pin) {
+            showModal('Error', 'Debes estar conectado a una sala para importar preguntas.', 'error');
+            return;
+        }
+
         setUploading(true);
         try {
-            const res = await fetch(`${API_URL}/api/import-questions`, {
+            const res = await fetch(`${API_URL}/api/import-questions-sala`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(previewData)
+                body: JSON.stringify({
+                    pin: pin,
+                    questions: previewData
+                })
             });
             const result = await res.json();
             if (result.success) {
-                showModal('¡Éxito!', `¡Energía cargada con éxito! Se importaron ${result.count} preguntas.`, 'success');
+                showModal('¡Éxito!', `¡Energía cargada con éxito! Se importaron ${result.count} preguntas para la sala ${pin}.`, 'success');
                 setPreviewData([]);
             } else {
                 showModal('Error', result.error || 'Error desconocido al importar.', 'error');

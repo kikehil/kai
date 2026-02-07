@@ -79,6 +79,15 @@ function App() {
         // Replaced alert with modal
         socket.on('error', (msg) => showModal('¡Ups!', msg, 'error'));
 
+        // Resultado de respuesta
+        socket.on('answer-result', (data) => {
+            if (data.correct) {
+                showModal('¡Correcto!', data.message, 'success');
+            } else {
+                showModal('Incorrecto', data.message, 'error');
+            }
+        });
+
         return () => {
             socket.off('update-room');
             socket.off('game-state-change');
