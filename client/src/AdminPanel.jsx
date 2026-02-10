@@ -203,18 +203,13 @@ function AdminPanel() {
 
                         <div className="grid grid-cols-2 gap-4">
                             <button className="py-4 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold text-gray-300">
-                                Reiniciar Temporizador
+                                ⏳ 10s Timer
                             </button>
-                            <button className="py-4 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold text-gray-300">
-                                Pausar Música
-                            </button>
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <button className="py-4 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold text-gray-300">
-                                Reiniciar Temporizador
-                            </button>
-                            <button className="py-4 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold text-gray-300">
-                                Pausar Música
+                            <button
+                                onClick={() => socket.emit('admin-action', { pin, action: 'show-podium' })}
+                                className="py-4 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold text-gray-300"
+                            >
+                                🏆 Ver Ganadores
                             </button>
                         </div>
 

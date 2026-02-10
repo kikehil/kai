@@ -4,6 +4,7 @@ import Lobby from './Lobby.jsx';
 import FlashWinner from './FlashWinner.jsx';
 import FinalPodium from './FinalPodium.jsx';
 import Modal from './Modal.jsx';
+import CircularTimer from './CircularTimer.jsx'; // Import at top
 
 // Use dynamic hostname to allow mobile connection via IP
 const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000' : window.location.origin;
@@ -25,6 +26,7 @@ function App() {
     const [branding, setBranding] = useState(null);
     const [flashWinner, setFlashWinner] = useState(null);
     const [podiumData, setPodiumData] = useState([]);
+    const [bgMusic, setBgMusic] = useState(null);
 
     // Modal State
     const [modal, setModal] = useState({ show: false, title: '', message: '', type: 'info' });
@@ -34,6 +36,25 @@ function App() {
     };
 
     const closeModal = () => setModal({ ...modal, show: false });
+
+    useEffect(() => {
+        // Effect for Background Music
+        if (gameState === 'game') {
+            const audio = new Audio('/bg-music.mp3'); // Create your music file in public/
+            audio.loop = true;
+            audio.volume = 0.3;
+            audio.play().catch(e => console.log("Auto-play prevented:", e));
+            setBgMusic(audio);
+        } else {
+            if (bgMusic) {
+                bgMusic.pause();
+                bgMusic.currentTime = 0;
+            }
+        }
+        return () => {
+            if (bgMusic) bgMusic.pause();
+        };
+    }, [gameState]);
 
     useEffect(() => {
         fetch(`${API_BASE}/api/config`)
@@ -126,6 +147,13 @@ function App() {
         }
     };
 
+    const handleTimeout = () => {
+        if (question && !modal.show) { // Only if not already answered or modal shown
+            submitAnswer(false);
+            showModal('⏰ ¡Tiempo Agotado!', 'Se acabó el tiempo para esta pregunta.', 'error');
+        }
+    };
+
     const submitConectaQuestion = () => {
         if (!newConectaQuestion.trim()) return;
         socket.emit('post-conecta-question', { text: newConectaQuestion, user: user.username });
@@ -154,7 +182,7 @@ function App() {
                 <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4">
                     <div className="bg-white text-dark-gray max-w-lg w-full p-8 rounded-3xl text-center border-4 border-oxxo-red relative overflow-hidden">
                         <div className="mb-6 flex justify-center">
-                            <img src={`http://${window.location.hostname}:3000/logo2.svg`} alt="Kai Logo" className="h-24" />
+                            <img src={`//${window.location.hostname}:3000/logo2.svg`} alt="Kai Logo" className="h-24" />
                         </div>
                         <h2 className="text-3xl font-black text-oxxo-red mb-4">¡Bienvenido a Kai!</h2>
                         <p className="text-xl font-medium mb-8">Sincronizando la energía de OXXO.<br />Ingresa el PIN del evento para conectar.</p>
@@ -187,7 +215,7 @@ function App() {
                 <header className="py-8 flex justify-center items-center relative z-10 transition-all">
                     <div className="relative group cursor-pointer">
                         {branding ? (
-                            <img src={`http://${window.location.hostname}:3000${branding.logoUrl}`} alt="Zuynch Logo" className="h-20 drop-shadow-[0_0_15px_rgba(255,242,0,0.6)]" />
+                            <img src={`//${window.location.hostname}:3000${branding.logoUrl}`} alt="Zuynch Logo" className="h-20 drop-shadow-[0_0_15px_rgba(255,242,0,0.6)]" />
                         ) : (
                             <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-white">zuynch</h1>
                         )}
@@ -235,7 +263,15 @@ function App() {
                                 </div>
                                 {question ? (
                                     <div className={`bg-white text-dark-gray p-8 rounded-3xl shadow-xl flex-1 flex flex-col justify-center transition-all duration-500 ${flashCorrect ? 'ring-8 ring-oxxo-yellow scale-[1.02]' : ''}`}>
-                                        <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 leading-tight">{question.question_text}</h2>
+
+                                        <div className="flex justify-between items-center mb-6">
+                                            <h2 className="text-2xl md:text-3xl font-bold text-center leading-tight flex-1">{question.question_text}</h2>
+                                            <div className="ml-4 flex-shrink-0">
+                                                {/* Use question.time_limit if available, defaulting to 10 */}
+                                                <CircularTimer duration={question.time_limit || 10} onComplete={handleTimeout} />
+                                            </div>
+                                        </div>
+
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                                             {[{ label: question.option_a, val: 'a' }, { label: question.option_b, val: 'b' }, { label: question.option_c, val: 'c' }, { label: question.option_d, val: 'd' }].map((opt, idx) => (
                                                 <button key={opt.val} disabled={isFrozen} onClick={() => submitAnswer(opt.val === question.correct_option)} className={`group relative p-6 rounded-2xl text-lg font-bold text-left transition-all border-2 border-gray-100 hover:border-oxxo-red hover:bg-red-50 ${isFrozen ? 'opacity-50 cursor-not-allowed grayscale' : 'active:scale-95'}`}>

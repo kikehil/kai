@@ -596,7 +596,7 @@ io.on('connection', (socket) => {
                     option_c: q.opcion_c,
                     option_d: q.opcion_d,
                     correct_option: q.respuesta_correcta ? q.respuesta_correcta.toLowerCase() : 'a',
-                    time_limit: q.tiempo_limite || 45,
+                    time_limit: q.tiempo_limite || 10,
                     questionNumber: questionIndex + 1,
                     totalQuestions: room.questions.length
                 });
