@@ -117,6 +117,7 @@ function App() {
             socket.off('the-flash-is');
             socket.off('conecta-questions-update');
             socket.off('error');
+            socket.off('answer-result');
         };
     }, []);
 
@@ -255,97 +256,120 @@ function App() {
                 <div className="flex-1 flex flex-col md:flex-row max-w-7xl mx-auto w-full p-4 gap-6">
                     <div className="flex-1 flex flex-col min-w-0">
                         <div className="flex gap-4 mb-6">
-                            <button onClick={() => setActiveTab('reto')} className={`flex-1 py-3 rounded-xl font-bold text-lg transition-all ${activeTab === 'reto' ? 'bg-oxxo-red text-white shadow-lg scale-105' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}>Reto zuynch</button>
-                            <button onClick={() => setActiveTab('conecta')} className={`flex-1 py-3 rounded-xl font-bold text-lg transition-all ${activeTab === 'conecta' ? 'bg-oxxo-red text-white shadow-lg scale-105' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}>Conecta zuynch</button>
+                            <button onClick={() => setActiveTab('reto')} className={`flex-1 py-3 rounded-xl font-bold text-lg transition-all ${activeTab === 'reto' ? 'bg-oxxo-red text-white shadow-lg scale-105' : 'bg-white text-gray-400 border-2 border-gray-100 hover:bg-gray-50'}`}>Reto OXXO</button>
+                            <button onClick={() => setActiveTab('conecta')} className={`flex-1 py-3 rounded-xl font-bold text-lg transition-all ${activeTab === 'conecta' ? 'bg-oxxo-red text-white shadow-lg scale-105' : 'bg-white text-gray-400 border-2 border-gray-100 hover:bg-gray-50'}`}>Conecta OXXO</button>
                         </div>
 
                         {activeTab === 'reto' ? (
                             <div className="flex-1 flex flex-col">
-                                <div className="flex justify-between items-center mb-6 bg-gray-800/80 p-3 rounded-2xl border border-gray-700">
-                                    <div className="px-4 font-bold text-gray-300">Sala: <span className="text-white">{user.pin}</span></div>
-                                    <div className="flex items-center gap-2 bg-black/40 px-4 py-2 rounded-xl border border-oxxo-yellow/50">
+                                <div className="flex justify-between items-center mb-6 bg-white p-4 rounded-2xl border-x-2 border-b-4 border-oxxo-red shadow-md">
+                                    <div className="px-4 font-black text-dark-gray uppercase tracking-tighter">SALA: <span className="text-oxxo-red text-2xl ml-2">{user.pin}</span></div>
+                                    <div className="flex items-center gap-3 bg-oxxo-yellow px-6 py-2 rounded-xl border-l-4 border-oxxo-red shadow-inner">
                                         <span className="text-2xl">⚡</span>
-                                        <span className="text-2xl font-bold text-oxxo-yellow">{myData.coins}</span>
+                                        <span className="text-2xl font-black text-dark-gray">{myData.coins}</span>
                                     </div>
                                 </div>
                                 {question ? (
-                                    <div className={`bg-white text-dark-gray p-8 rounded-[40px] shadow-2xl flex-1 flex flex-col justify-center transition-all duration-500 border-4 border-oxxo-red relative overflow-hidden ${flashCorrect ? 'ring-8 ring-oxxo-yellow scale-[1.02]' : ''}`}>
-                                        <div className="absolute top-0 left-0 w-full h-2 bg-oxxo-yellow"></div>
+                                    <div className={`bg-white text-dark-gray p-8 rounded-[40px] shadow-2xl flex-1 flex flex-col justify-center transition-all duration-500 border-x-4 border-b-[12px] border-oxxo-red relative overflow-hidden ${flashCorrect ? 'ring-8 ring-oxxo-yellow scale-[1.02]' : ''}`}>
+                                        <div className="absolute top-0 left-0 w-full h-3 bg-oxxo-yellow"></div>
 
                                         <div className="flex justify-between items-center mb-10">
-                                            <h2 className="text-2xl md:text-3xl font-black text-center leading-tight flex-1 text-dark-gray tracking-tight">{question.question_text}</h2>
-                                            <div className="ml-6 flex-shrink-0">
+                                            <h2 className="text-2xl md:text-4xl font-black text-left leading-tight flex-1 text-dark-gray tracking-tight">{question.question_text}</h2>
+                                            <div className="ml-6 flex-shrink-0 bg-gray-50 p-4 rounded-full border-2 border-gray-100 shadow-inner">
                                                 <CircularTimer key={question.id} duration={10} onComplete={handleTimeout} />
                                             </div>
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                                             {[{ label: question.option_a, val: 'a' }, { label: question.option_b, val: 'b' }, { label: question.option_c, val: 'c' }, { label: question.option_d, val: 'd' }].map((opt, idx) => (
-                                                <button key={opt.val} disabled={isFrozen} onClick={() => submitAnswer(opt.val === question.correct_option)} className={`group relative p-6 rounded-2xl text-xl font-black text-left transition-all border-2 border-gray-100 hover:border-oxxo-red hover:bg-oxxo-red hover:text-white ${isFrozen ? 'opacity-50 cursor-not-allowed grayscale' : 'active:scale-95 shadow-md hover:shadow-lg'}`}>
-                                                    <span className="inline-block w-10 h-10 rounded-xl bg-oxxo-yellow text-black text-center leading-10 mr-4 font-black">
-                                                        {['A', 'B', 'C', 'D'][idx]}
-                                                    </span>
-                                                    <span className="flex-1">{opt.label}</span>
+                                                <button key={opt.val} disabled={isFrozen} onClick={() => submitAnswer(opt.val === question.correct_option)} className={`group relative p-6 rounded-[2rem] text-xl font-black text-left transition-all border-4 border-gray-50 hover:border-oxxo-yellow hover:bg-white ${isFrozen ? 'opacity-50 cursor-not-allowed grayscale' : 'active:scale-95 shadow-lg hover:shadow-2xl'}`}>
+                                                    <div className="flex items-center">
+                                                        <span className="inline-block w-12 h-12 rounded-2xl bg-oxxo-red text-white text-center leading-[3rem] mr-5 font-black text-2xl shadow-lg group-hover:bg-oxxo-yellow group-hover:text-black transition-colors">
+                                                            {['A', 'B', 'C', 'D'][idx]}
+                                                        </span>
+                                                        <span className="flex-1 uppercase tracking-tighter leading-tight">{opt.label}</span>
+                                                    </div>
                                                 </button>
                                             ))}
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className="flex items-center justify-center flex-1 h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-oxxo-red"></div></div>
+                                    <div className="flex flex-col items-center justify-center flex-1 h-64 bg-white/50 rounded-[3rem] border-4 border-dashed border-gray-200">
+                                        <div className="animate-spin rounded-full h-16 w-16 border-t-8 border-oxxo-red border-r-8 border-r-oxxo-yellow mb-6"></div>
+                                        <p className="font-black text-gray-400 uppercase tracking-widest animate-pulse text-xl">Sincronizando energía...</p>
+                                    </div>
                                 )}
                             </div>
                         ) : (
-                            <div className="flex-1 bg-gray-900 rounded-3xl p-6 border border-gray-800 flex flex-col h-[600px]">
-                                <h2 className="text-xl font-bold text-oxxo-yellow mb-4 flex items-center gap-2"> PREGUNTAS EN VIVO <span className="text-xs bg-oxxo-red text-white px-2 py-0.5 rounded-full ml-auto">EN VIVO</span></h2>
-                                <div className="flex-1 overflow-y-auto space-y-4 pr-2 mb-4 custom-scrollbar">
+                            <div className="flex-1 bg-white rounded-[3rem] p-8 border-x-2 border-b-8 border-oxxo-red shadow-2xl flex flex-col h-[650px]">
+                                <h2 className="text-2xl font-black text-dark-gray mb-6 flex items-center gap-3">
+                                    <span className="bg-oxxo-yellow p-2 rounded-xl">💬</span>
+                                    PREGUNTAS EN VIVO
+                                    <span className="text-[10px] bg-oxxo-red text-white px-3 py-1 rounded-full ml-auto animate-pulse">LIVE</span>
+                                </h2>
+                                <div className="flex-1 overflow-y-auto space-y-4 pr-2 mb-6 custom-scrollbar">
                                     {conectaQuestions.map(q => (
-                                        <div key={q.id} className="bg-gray-800 p-4 rounded-xl border-l-4 border-oxxo-red flex gap-4">
+                                        <div key={q.id} className="bg-gray-50 p-5 rounded-3xl border-l-8 border-oxxo-yellow flex gap-5 shadow-sm hover:shadow-md transition-shadow">
                                             <div className="flex-1">
-                                                <p className="text-lg font-medium text-white mb-1">{q.pregunta_texto}</p>
-                                                <div className="text-xs text-gray-500 flex items-center gap-2">
-                                                    <span>👤 {q.usuario}</span><span>•</span><span>{new Date(q.fecha_creacion).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                                <p className="text-xl font-black text-dark-gray mb-2 uppercase tracking-tight leading-tight">{q.pregunta_texto}</p>
+                                                <div className="text-[10px] text-gray-400 flex items-center gap-2 font-black">
+                                                    <span className="bg-white px-2 py-0.5 rounded border border-gray-100">👤 {q.usuario}</span>
+                                                    <span>•</span>
+                                                    <span>{new Date(q.fecha_creacion).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                                 </div>
                                             </div>
-                                            <div className="flex flex-col items-center justify-center gap-1 min-w-[50px]">
-                                                <button onClick={() => likeConectaQuestion(q.id)} className="w-10 h-10 rounded-full bg-gray-700 hover:bg-oxxo-yellow hover:text-black transition-colors flex items-center justify-center">▲</button>
-                                                <span className="font-bold text-white">{q.upvotes}</span>
+                                            <div className="flex flex-col items-center justify-center gap-2 min-w-[60px]">
+                                                <button onClick={() => likeConectaQuestion(q.id)} className="w-12 h-12 rounded-2xl bg-white border-2 border-gray-100 hover:border-oxxo-yellow hover:bg-oxxo-yellow hover:scale-110 active:scale-95 transition-all flex items-center justify-center shadow-sm">▲</button>
+                                                <span className="font-black text-dark-gray text-lg">{q.upvotes}</span>
                                             </div>
                                         </div>
                                     ))}
-                                    {conectaQuestions.length === 0 && <div className="text-center text-gray-500 py-10">Sé el primero en preguntar...</div>}
+                                    {conectaQuestions.length === 0 && (
+                                        <div className="flex flex-col items-center justify-center h-full opacity-30 text-gray-400">
+                                            <div className="text-6xl mb-4">✍️</div>
+                                            <p className="font-black uppercase tracking-widest text-xl">Sé el primero en preguntar</p>
+                                        </div>
+                                    )}
                                 </div>
-                                <div className="pt-4 border-t border-gray-700">
-                                    <div className="flex gap-2">
-                                        <input value={newConectaQuestion} onChange={e => setNewConectaQuestion(e.target.value)} placeholder="Escribe tu pregunta para el host..." className="flex-1 bg-gray-800 border-none rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-oxxo-yellow outline-none" onKeyDown={e => e.key === 'Enter' && submitConectaQuestion()} />
-                                        <button onClick={submitConectaQuestion} className="bg-white text-dark-gray px-6 rounded-xl font-bold hover:bg-oxxo-yellow transition-colors">Enviar</button>
+                                <div className="pt-6 border-t-2 border-gray-100">
+                                    <div className="flex gap-3">
+                                        <input value={newConectaQuestion} onChange={e => setNewConectaQuestion(e.target.value)} placeholder="Escribe tu pregunta para el host..." className="flex-1 bg-gray-50 border-2 border-gray-100 rounded-2xl px-6 py-4 text-dark-gray font-bold focus:ring-4 focus:ring-oxxo-red/10 focus:border-oxxo-red outline-none transition-all" onKeyDown={e => e.key === 'Enter' && submitConectaQuestion()} />
+                                        <button onClick={submitConectaQuestion} className="bg-oxxo-red text-white px-8 rounded-2xl font-black text-lg hover:brightness-110 transition-all shadow-lg active:scale-95">ENVIAR</button>
                                     </div>
                                 </div>
                             </div>
                         )}
                     </div>
 
-                    <div className="w-full md:w-80 flex flex-col gap-4">
-                        <div className="bg-gray-800 rounded-3xl p-6 border border-gray-700 shadow-xl flex-1 max-h-[500px] flex flex-col">
-                            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">🏆 RANKING</h3>
-                            <div className="overflow-y-auto flex-1 space-y-2 pr-2 custom-scrollbar">
+                    <div className="w-full md:w-80 flex flex-col gap-6">
+                        <div className="bg-white rounded-[2.5rem] p-6 border-x-2 border-b-8 border-oxxo-red shadow-xl flex-1 max-h-[500px] flex flex-col">
+                            <h3 className="text-xl font-black text-dark-gray mb-6 flex items-center gap-3">
+                                <span className="bg-oxxo-yellow p-2 rounded-xl text-sm">🏆</span>
+                                RANKING
+                            </h3>
+                            <div className="overflow-y-auto flex-1 space-y-3 pr-2 custom-scrollbar">
                                 {roomData.users.map((u, i) => (
-                                    <div key={u.id} className={`flex items-center justify-between p-3 rounded-xl ${u.id === socket.id ? 'bg-oxxo-red text-white' : 'bg-gray-700/50 text-gray-300'}`}>
+                                    <div key={u.id} className={`flex items-center justify-between p-4 rounded-2xl transition-all ${u.id === socket.id ? 'bg-oxxo-red text-white shadow-lg scale-105' : 'bg-gray-50 text-dark-gray border border-gray-100 hover:border-oxxo-red/20'}`}>
                                         <div className="flex items-center gap-3">
-                                            <span className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${rankColor(i)}`}>{i + 1}</span>
-                                            <span className="font-medium truncate max-w-[100px]">{u.username}</span>
+                                            <span className={`w-8 h-8 flex items-center justify-center rounded-xl text-xs font-black shadow-sm ${u.id === socket.id ? 'bg-white text-oxxo-red' : rankColor(i)}`}>{i + 1}</span>
+                                            <span className="font-black text-sm uppercase tracking-tighter truncate max-w-[100px]">{u.username}</span>
                                             {u.streak >= 5 && <span title="Racha">🔥</span>}
                                             {u.isFrozen && <span>❄️</span>}
                                         </div>
-                                        <span className="font-bold">{u.score}</span>
+                                        <span className="font-black text-xl">{u.score}</span>
                                     </div>
                                 ))}
                             </div>
                         </div>
-                        <div className="bg-gray-800 rounded-3xl p-6 border border-gray-700 shadow-xl">
-                            <h3 className="text-sm font-bold text-gray-400 mb-3 uppercase tracking-wider">Tienda de Poderes</h3>
-                            <button onClick={() => socket.emit('use-power', { pin: user.pin, type: 'freeze-leader' })} disabled={myData.coins < 50} className={`w-full p-4 rounded-xl flex items-center justify-between group transition-all ${myData.coins < 50 ? 'bg-gray-700 opacity-50 cursor-not-allowed' : 'bg-gradient-to-r from-cyan-600 to-blue-500 hover:brightness-110 active:scale-95'}`}>
-                                <div className="text-left"><div className="font-bold text-white text-sm">Congelar al Líder</div><div className="text-xs text-blue-100">Costo: 50</div></div>
-                                <div className="text-2xl">❄️</div>
+                        <div className="bg-white rounded-[2.5rem] p-6 border-x-2 border-b-8 border-oxxo-red shadow-xl">
+                            <h3 className="text-[10px] font-black text-gray-400 mb-4 uppercase tracking-[0.3em]">Tienda de Poderes</h3>
+                            <button onClick={() => socket.emit('use-power', { pin: user.pin, type: 'freeze-leader' })} disabled={myData.coins < 50} className={`w-full p-5 rounded-2xl flex items-center justify-between group transition-all relative overflow-hidden ${myData.coins < 50 ? 'bg-gray-100 opacity-50 cursor-not-allowed grayscale' : 'bg-gradient-to-r from-blue-600 to-cyan-500 hover:brightness-110 active:scale-95 shadow-lg'}`}>
+                                <div className="text-left relative z-10">
+                                    <div className="font-black text-white text-base leading-none mb-1">CONGELAR LÍDER</div>
+                                    <div className="text-[10px] text-blue-100 font-black tracking-widest uppercase">Puntos: 50</div>
+                                </div>
+                                <div className="text-4xl filter drop-shadow-md relative z-10">❄️</div>
+                                <div className="absolute top-0 right-0 w-32 h-full bg-white/10 skew-x-[30deg] -mr-10"></div>
                             </button>
                         </div>
                     </div>
@@ -356,10 +380,10 @@ function App() {
 }
 
 function rankColor(index) {
-    if (index === 0) return "bg-oxxo-yellow text-black";
-    if (index === 1) return "bg-gray-300 text-black";
-    if (index === 2) return "bg-orange-400 text-black";
-    return "bg-gray-600 text-white";
+    if (index === 0) return "bg-oxxo-yellow text-black border-2 border-white";
+    if (index === 1) return "bg-gray-200 text-dark-gray border border-gray-300";
+    if (index === 2) return "bg-orange-100 text-orange-800 border border-orange-200";
+    return "bg-white text-gray-400 border border-gray-100";
 }
 
 export default App;
