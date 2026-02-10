@@ -85,12 +85,42 @@ app.get('/api/questions', async (req, res) => {
 });
 
 app.post('/api/questions', async (req, res) => {
-    const { question, optionA, optionB, optionC, optionD, correctOption, timeLimit } = req.body;
+    const { question, optionA, optionB, optionC, optionD, correctOption, timeLimit, pin } = req.body;
+
     try {
-        await pool.query(
-            'INSERT INTO retos_preguntas (pregunta, opcion_a, opcion_b, opcion_c, opcion_d, respuesta_correcta, tiempo_limite) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            [question, optionA, optionB, optionC, optionD, correctOption, timeLimit || 45]
+        let salaId = null;
+        if (pin) {
+            // Get sala ID
+            const [salaRows] = await pool.query('SELECT id FROM salas WHERE pin = ?', [pin]);
+            if (salaRows.length > 0) {
+                salaId = salaRows[0].id;
+            } else {
+                // Create sala if doesn't exist? Or error? 
+                // Better to be safe and require existing room, or auto-create if we are consistent.
+                // Let's auto-create to be safe like in import.
+                await pool.query('INSERT INTO salas (pin, nombre) VALUES (?, ?)', [pin, `Sala ${pin}`]);
+                const [newSala] = await pool.query('SELECT id FROM salas WHERE pin = ?', [pin]);
+                salaId = newSala[0].id;
+            }
+        }
+
+        const [result] = await pool.query(
+            'INSERT INTO retos_preguntas (pregunta, opcion_a, opcion_b, opcion_c, opcion_d, respuesta_correcta, tiempo_limite, sala_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            [question, optionA, optionB, optionC, optionD, correctOption, timeLimit || 45, salaId]
         );
+
+        // Update in-memory game if active
+        if (pin && games[pin] && salaId) {
+            const [newQ] = await pool.query('SELECT * FROM retos_preguntas WHERE id = ?', [result.insertId]);
+            if (games[pin].questions) {
+                games[pin].questions.push(newQ[0]);
+                io.to(pin).emit('admin-questions-update', {
+                    questions: games[pin].questions,
+                    currentQuestionIndex: games[pin].currentQuestionIndex
+                });
+            }
+        }
+
         res.json({ success: true });
     } catch (error) {
         console.error(error);

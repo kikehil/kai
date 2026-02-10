@@ -119,7 +119,7 @@ function AdminPanel() {
         return (
             <div className="min-h-screen bg-dark-gray flex items-center justify-center">
                 <div className="bg-gray-800 p-8 rounded-2xl border border-gray-700 text-center">
-                    <img src={`http://${window.location.hostname}:3000/logo.svg`} className="h-16 mx-auto mb-6 drop-shadow-[0_0_10px_rgba(255,242,0,0.5)]" />
+                    <img src={`//${window.location.hostname}:3000/logo.svg`} className="h-16 mx-auto mb-6 drop-shadow-[0_0_10px_rgba(255,242,0,0.5)]" />
                     <h2 className="text-2xl font-bold text-white mb-4">God Mode Login</h2>
                     <input
                         value={pin} onChange={e => setPin(e.target.value)}
@@ -161,7 +161,7 @@ function AdminPanel() {
             {/* Header */}
             <header className="bg-black/50 p-4 border-b border-gray-800 flex justify-between items-center">
                 <div className="flex items-center gap-4">
-                    <img src={`http://${window.location.hostname}:3000/logo.svg`} className="h-10 drop-shadow-[0_0_8px_rgba(255,242,0,0.6)]" />
+                    <img src={`//${window.location.hostname}:3000/logo.svg`} className="h-10 drop-shadow-[0_0_8px_rgba(255,242,0,0.6)]" />
                     <span className="font-bold text-gray-400 border-l border-gray-600 pl-4 ml-4">GOD MODE</span>
                 </div>
                 <div className="flex items-center gap-4">
@@ -369,19 +369,19 @@ function AdminPanel() {
                 {/* New Question Form */}
                 <div className="bg-gray-800 rounded-3xl p-6 border border-gray-700">
                     <h2 className="text-xl font-bold text-white mb-4">📝 Agregar Nueva Pregunta (Reto)</h2>
-                    <NewQuestionForm showModal={showModal} />
+                    <NewQuestionForm showModal={showModal} pin={pin} />
                 </div>
                 {/* Excel Import */}
                 <div className="bg-gray-800 rounded-3xl p-6 border border-gray-700">
                     <h2 className="text-xl font-bold text-white mb-4">📂 Importar Excel</h2>
-                    <ExcelImport showModal={showModal} />
+                    <ExcelImport showModal={showModal} pin={pin} />
                 </div>
             </section>
         </div >
     );
 }
 
-function ExcelImport({ showModal }) {
+function ExcelImport({ showModal, pin }) {
     const [previewData, setPreviewData] = useState([]);
     const [uploading, setUploading] = useState(false);
 
@@ -513,7 +513,7 @@ function ExcelImport({ showModal }) {
     );
 }
 
-function NewQuestionForm({ showModal }) {
+function NewQuestionForm({ showModal, pin }) {
     const [formData, setFormData] = useState({
         question: '',
         optionA: '',
@@ -532,7 +532,7 @@ function NewQuestionForm({ showModal }) {
             await fetch(`${API_URL}/api/questions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({ ...formData, pin })
             });
             showModal('¡Guardado!', 'Pregunta guardada con éxito.', 'success');
             setFormData({
