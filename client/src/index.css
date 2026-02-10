@@ -8,36 +8,37 @@
   }
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar with OXXO Colors */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #1a1a1a;
+  background: #0A0A0A;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #333;
+  background: #2A2A2A;
   border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #E51A22;
+  background: #ED1C24;
+  box-shadow: 0 0 10px rgba(237, 28, 36, 0.5);
 }
 
-/* Logo Pulse Animation */
+/* Logo Pulse Animation with OXXO Yellow Glow */
 @keyframes pulse-energy {
   0% {
-    filter: drop-shadow(0 0 5px #FFF200);
+    filter: drop-shadow(0 0 8px #FFF200);
   }
 
   50% {
-    filter: drop-shadow(0 0 20px #FFF200);
+    filter: drop-shadow(0 0 20px #FFF200) drop-shadow(0 0 30px #FFE600);
   }
 
   100% {
-    filter: drop-shadow(0 0 5px #FFF200);
+    filter: drop-shadow(0 0 8px #FFF200);
   }
 }
 
@@ -45,24 +46,45 @@
   animation: pulse-energy 2s infinite;
 }
 
-/* Projector Styles */
+/* Red Neon Glow Effect */
+@keyframes red-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(237, 28, 36, 0.5), 0 0 10px rgba(237, 28, 36, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 15px rgba(237, 28, 36, 0.8), 0 0 25px rgba(237, 28, 36, 0.5);
+  }
+}
+
+/* Projector Styles with Gaming Enhancement */
 .card-pregunta-proyector {
-  border-left: 10px solid #E51A22;
-  /* El Rojo OXXO como acento */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border-left: 10px solid #ED1C24;
+  background: linear-gradient(145deg, #1A1A1A, #0A0A0A);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(237, 28, 36, 0.2);
   transition: all 0.5s ease;
 }
 
 .card-pregunta-proyector:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(229, 26, 34, 0.3);
+  box-shadow: 0 15px 40px rgba(237, 28, 36, 0.4), 0 0 30px rgba(237, 28, 36, 0.3);
+  border-left-color: #FF3B47;
 }
 
+/* Yellow Badge with Glow */
 .votos-badge {
-  background-color: #FFF200;
-  /* El Amarillo de energía */
-  color: #1A1A1A;
+  background: linear-gradient(135deg, #FFF200, #FFE600);
+  color: #0A0A0A;
   font-weight: bold;
   padding: 8px 16px;
   border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(255, 242, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.votos-badge:hover {
+  box-shadow: 0 6px 20px rgba(255, 242, 0, 0.6);
+  transform: scale(1.05);
 }

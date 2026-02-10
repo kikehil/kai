@@ -164,7 +164,7 @@ function App() {
     const myData = roomData.users.find(u => u.id === socket.id) || { score: 0, coins: 0 };
 
     return (
-        <div className="min-h-screen bg-dark-gray text-white font-sans overflow-hidden flex flex-col relative">
+        <div className="min-h-screen bg-gradient-to-br from-dark-gray via-dark-gray-800 to-dark-gray text-white font-sans overflow-hidden flex flex-col relative">
             <FlashWinner winner={flashWinner} onComplete={() => setFlashWinner(null)} />
 
             <Modal
@@ -224,7 +224,7 @@ function App() {
             )}
 
             {gameState === 'lobby' && (
-                <div className="flex-1 flex flex-col items-center justify-center p-6 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-800 via-dark-gray to-black">
+                <div className="flex-1 flex flex-col items-center justify-center p-6 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-dark-gray-700 via-dark-gray-800 to-dark-gray">
                     <div className="w-full max-w-md bg-white text-dark-gray p-8 rounded-3xl shadow-2xl border-4 border-oxxo-red">
                         <h2 className="text-2xl font-bold mb-6 text-center text-oxxo-red">INGRESA AL JUEGO</h2>
                         <div className="space-y-4">
@@ -267,8 +267,8 @@ function App() {
                                         <div className="flex justify-between items-center mb-6">
                                             <h2 className="text-2xl md:text-3xl font-bold text-center leading-tight flex-1">{question.question_text}</h2>
                                             <div className="ml-4 flex-shrink-0">
-                                                {/* Use question.time_limit if available, defaulting to 10 */}
-                                                <CircularTimer duration={question.time_limit || 10} onComplete={handleTimeout} />
+                                                {/* Force 10 seconds as requested. Key ensures reset on new question */}
+                                                <CircularTimer key={question.id} duration={10} onComplete={handleTimeout} />
                                             </div>
                                         </div>
 
