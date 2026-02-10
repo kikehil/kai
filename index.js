@@ -192,6 +192,12 @@ app.post('/api/import-questions-sala', async (req, res) => {
             games[pin].questions = preguntasSala;
             games[pin].currentQuestionIndex = 0;
             console.log(`[IMPORT] Preguntas actualizadas en memoria para sala ${pin}`);
+
+            // Update Admin with new questions
+            io.to(pin).emit('admin-questions-update', {
+                questions: games[pin].questions,
+                currentQuestionIndex: 0
+            });
         }
 
         res.json({ success: true, count: values.length, salaId });
@@ -219,6 +225,14 @@ io.on('connection', (socket) => {
                 const [approved] = await pool.query("SELECT * FROM conecta_preguntas WHERE estado='aprobada' ORDER BY upvotes DESC, fecha_creacion DESC");
                 socket.emit('moderator-update', { pending, approved });
             } catch (e) { console.error(e); }
+
+            // Send current game state (questions) to Admin
+            if (games[pin]) {
+                socket.emit('admin-init', {
+                    questions: games[pin].questions || [],
+                    currentQuestionIndex: games[pin].currentQuestionIndex || 0
+                });
+            }
         }
 
         if (!games[pin]) {
@@ -561,6 +575,11 @@ io.on('connection', (socket) => {
 
                 // Incrementar índice para la siguiente pregunta
                 room.currentQuestionIndex = (room.currentQuestionIndex || 0) + 1;
+
+                // Notify admin of progress
+                io.to(pin).emit('admin-index-update', {
+                    currentQuestionIndex: room.currentQuestionIndex
+                });
 
                 // Timeout para desactivar la ronda
                 setTimeout(() => {

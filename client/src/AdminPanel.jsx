@@ -45,6 +45,10 @@ function AdminPanel() {
     const [pendingQuestions, setPendingQuestions] = useState([]);
     const [approvedQuestions, setApprovedQuestions] = useState([]);
 
+    // Questions Management
+    const [questions, setQuestions] = useState([]);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
     useEffect(() => {
         socket.on('update-room', (data) => {
             setRoomUsers(data.users.filter(u => u.username !== 'ADMIN'));
@@ -55,12 +59,30 @@ function AdminPanel() {
             setApprovedQuestions(approved);
         });
 
+        socket.on('admin-init', (data) => {
+            setQuestions(data.questions || []);
+            setCurrentQuestionIndex(data.currentQuestionIndex || 0);
+        });
+
+        socket.on('admin-questions-update', (data) => {
+            setQuestions(data.questions || []);
+            setCurrentQuestionIndex(data.currentQuestionIndex || 0);
+        });
+
+        socket.on('admin-index-update', (data) => {
+            setCurrentQuestionIndex(data.currentQuestionIndex || 0);
+        });
+
         // Listen for events if needed to update live bar graph of choices
         // socket.on('live-answer-update', ...)
 
         return () => {
             socket.off('update-room');
+            socket.off('update-room');
             socket.off('moderator-update');
+            socket.off('admin-init');
+            socket.off('admin-questions-update');
+            socket.off('admin-index-update');
         };
     }, []);
 
@@ -186,6 +208,38 @@ function AdminPanel() {
                             <button className="py-4 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold text-gray-300">
                                 Pausar Música
                             </button>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <button className="py-4 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold text-gray-300">
+                                Reiniciar Temporizador
+                            </button>
+                            <button className="py-4 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold text-gray-300">
+                                Pausar Música
+                            </button>
+                        </div>
+
+                        {/* Question List / Timeline */}
+                        <div className="mt-6 bg-gray-900/50 rounded-xl p-4 border border-gray-600 max-h-60 overflow-y-auto custom-scrollbar">
+                            <h3 className="text-gray-400 font-bold mb-2 text-sm uppercase">Secuencia de Preguntas ({currentQuestionIndex}/{questions.length})</h3>
+                            {questions.length === 0 ? (
+                                <p className="text-gray-500 italic text-sm">No hay preguntas cargadas.</p>
+                            ) : (
+                                <ul className="space-y-2">
+                                    {questions.map((q, i) => {
+                                        const isNext = i === currentQuestionIndex;
+                                        const isPast = i < currentQuestionIndex;
+                                        return (
+                                            <li key={i} className={`p-2 rounded text-sm flex gap-2 ${isNext ? 'bg-gray-700 border-l-4 border-oxxo-red text-white' : isPast ? 'bg-gray-800 text-gray-500 line-through' : 'bg-gray-800 text-gray-400'}`}>
+                                                <span className="font-mono opacity-50">#{i + 1}</span>
+                                                <div className="flex-1 truncate">
+                                                    {q.pregunta || q.question}
+                                                </div>
+                                                {isNext && <span className="text-xs bg-oxxo-red text-white px-2 py-0.5 rounded font-bold h-fit">SIGUIENTE</span>}
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            )}
                         </div>
                     </div>
                 </div>
