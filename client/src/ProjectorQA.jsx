@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import io from 'socket.io-client';
 
-const socket = io(`http://${window.location.hostname}:3000`);
+const socket = io();
 
 function ProjectorQA() {
     const [questions, setQuestions] = useState([]);
@@ -10,7 +10,7 @@ function ProjectorQA() {
     const [focusedId, setFocusedId] = useState(null);
 
     useEffect(() => {
-        fetch(`http://${window.location.hostname}:3000/api/config`)
+        fetch('/api/config')
             .then(res => res.json())
             .then(data => setBranding(data))
             .catch(err => console.error(err));
@@ -43,16 +43,16 @@ function ProjectorQA() {
     return (
         <div className="min-h-screen bg-[#1A1A1A] text-white font-sans p-8 relative overflow-hidden flex flex-col">
             {/* Header */}
-            <div className="flex justify-between items-center mb-8 border-b border-gray-800 pb-4 z-10">
-                <h1 className="text-4xl font-black text-white uppercase tracking-wider">
-                    Conecta <span className="text-oxxo-red">zuynch</span>
+            <div className="flex justify-between items-center mb-8 border-b border-white/5 pb-4 z-10">
+                <h1 className="text-4xl font-black text-white uppercase tracking-tight">
+                    OXXO <span className="text-oxxo-red">Quiz</span>
                 </h1>
 
                 {branding ? (
                     <img
-                        src={`http://${window.location.hostname}:3000${branding.logoUrl}`}
+                        src={branding.logoUrl}
                         alt="Logo"
-                        className="h-16 drop-shadow-[0_0_15px_rgba(255,242,0,0.4)] animate-pulse-slow"
+                        className="h-20 drop-shadow-[0_0_15px_rgba(255,242,0,0.6)] animate-pulse"
                     />
                 ) : (
                     <div className="h-16 w-16 bg-oxxo-red rounded-full animate-pulse"></div>

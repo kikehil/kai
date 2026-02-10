@@ -185,7 +185,7 @@ function App() {
                         <div className="mb-6 flex justify-center mt-4">
                             <img src="/logo2.svg" alt="OXXO Quiz Logo" className="h-32 logo-zuynch drop-shadow-[0_0_20px_rgba(255,242,0,0.8)]" />
                         </div>
-                        <h2 className="text-4xl font-black text-white mb-4 tracking-tight">¡Bienvenido a <span className="text-oxxo-yellow">OXXO Quiz!</span></h2>
+                        <h2 className="text-4xl font-black text-white mb-4 tracking-tight">¡Bienvenidos a <span className="text-oxxo-yellow">OXXO Quiz!</span></h2>
                         <p className="text-xl font-medium mb-8 text-gray-300">Sincronizando la energía de OXXO.<br />Ingresa el PIN del evento para conectar.</p>
                         <button onClick={() => setShowWelcome(false)} className="bg-oxxo-red text-white text-2xl font-black py-4 px-12 rounded-full hover:scale-105 hover:bg-neon-red transition-all shadow-[0_0_30px_rgba(237,28,36,0.6)]">COMENZAR</button>
                     </div>
