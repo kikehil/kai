@@ -2,126 +2,97 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
 
-const FinalPodium = ({ ranking, onRestart }) => {
+function FinalPodium({ ranking, onRestart }) {
     useEffect(() => {
-        const duration = 3000;
-        const end = Date.now() + duration;
+        const duration = 5 * 1000;
+        const animationEnd = Date.now() + duration;
+        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
-        const frame = () => {
+        const randomInRange = (min, max) => Math.random() * (max - min) + min;
+
+        const interval = setInterval(() => {
+            const timeLeft = animationEnd - Date.now();
+            if (timeLeft <= 0) return clearInterval(interval);
+
+            const particleCount = 50 * (timeLeft / duration);
             confetti({
-                particleCount: 5,
-                angle: 60,
-                spread: 55,
-                origin: { x: 0 },
-                colors: ['#E51A22', '#FFF200', '#FFFFFF']
+                ...defaults,
+                particleCount,
+                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                colors: ['#ED1C24', '#FFF200', '#FFFFFF']
             });
             confetti({
-                particleCount: 5,
-                angle: 120,
-                spread: 55,
-                origin: { x: 1 },
-                colors: ['#E51A22', '#FFF200', '#FFFFFF']
+                ...defaults,
+                particleCount,
+                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                colors: ['#ED1C24', '#FFF200', '#FFFFFF']
             });
+        }, 250);
 
-            if (Date.now() < end) {
-                requestAnimationFrame(frame);
-            }
-        };
-        frame();
+        return () => clearInterval(interval);
     }, []);
 
-    // Reorder ranking for visual podium: [2nd, 1st, 3rd]
-    // Assuming ranking is sorted [1st, 2nd, 3rd]
-    const podiumOrder = [ranking[1], ranking[0], ranking[2]].filter(u => u);
-
-    const getBarHeight = (index) => {
-        // Based on visual position (0=Left/2nd, 1=Center/1st, 2=Right/3rd)
-        if (index === 1) return 'h-96'; // 1st Place (Center)
-        if (index === 0) return 'h-72'; // 2nd Place (Left)
-        return 'h-60'; // 3rd Place (Right)
-    };
-
-    const getBarColor = (index) => {
-        if (index === 1) return 'bg-gradient-to-t from-yellow-500 to-oxxo-yellow border-oxxo-yellow'; // 1st
-        if (index === 0) return 'bg-gradient-to-t from-red-700 to-oxxo-red border-oxxo-red'; // 2nd
-        return 'bg-gradient-to-t from-gray-700 to-gray-500 border-gray-400'; // 3rd
-    };
+    // Show top 3 or all if less than 3
+    const topWinners = ranking.slice(0, 3);
 
     return (
-        <div className="fixed inset-0 min-h-screen bg-dark-gray flex flex-col items-center justify-center text-white overflow-hidden z-[100]">
+        <div className="fixed inset-0 bg-gray-50 z-[100] flex flex-col items-center justify-center p-4 overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-2 bg-oxxo-yellow"></div>
+            <div className="absolute top-0 right-0 w-96 h-96 bg-oxxo-red/10 rounded-full blur-[120px]"></div>
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-oxxo-yellow/10 rounded-full blur-[120px]"></div>
 
-            {/* Logo Header */}
             <motion.div
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                className="absolute top-10 flex flex-col items-center"
+                className="mb-12 text-center"
             >
-                <img src="/logo2.svg" alt="OXXO Quiz Logo" className="h-24 drop-shadow-[0_0_20px_rgba(255,242,0,0.6)] animate-pulse" />
-                <h1 className="text-4xl font-black mt-4 tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-oxxo-red via-white to-oxxo-yellow">
-                    RESULTADOS FINALES
+                <img src="/logo2.svg" alt="OXXO Quiz Logo" className="h-24 mx-auto mb-6 drop-shadow-md logo-zuynch" />
+                <h1 className="text-6xl font-black text-oxxo-red tracking-tight uppercase">
+                    ¡TOP GANADORES!
                 </h1>
+                <div className="h-2 w-48 bg-oxxo-yellow mx-auto rounded-full mt-2"></div>
             </motion.div>
 
-            {/* Podium Container */}
-            <div className="flex items-end justify-center gap-4 md:gap-8 mb-20 px-4 w-full max-w-4xl">
-                {podiumOrder.map((player, index) => {
-                    // Start hidden below
-                    return (
+            <div className="w-full max-w-4xl flex flex-col items-center gap-6 pb-24">
+                {topWinners.length > 0 ? (
+                    topWinners.map((user, index) => (
                         <motion.div
-                            key={player.username}
-                            initial={{ y: 500, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{
-                                type: 'spring',
-                                damping: 15,
-                                delay: index === 1 ? 1 : index === 0 ? 0.5 : 0 // Delay logic: 3rd(idx2) -> 2nd(idx0) -> 1st(idx1)
-                            }}
-                            className="flex flex-col items-center group relative"
+                            key={user.id || index}
+                            initial={{ scale: 0, x: -50 }}
+                            animate={{ scale: 1, x: 0 }}
+                            transition={{ delay: 0.5 + index * 0.2 }}
+                            className={`bg-white border-4 p-8 rounded-[3rem] flex items-center gap-10 shadow-2xl w-full max-w-2xl group transition-all ${index === 0 ? 'border-oxxo-red' : 'border-gray-100 hover:border-oxxo-red/50'}`}
                         >
-                            {/* Player Info (Floating above) */}
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: (index === 1 ? 1 : index === 0 ? 0.5 : 0) + 0.5 }}
-                                className="mb-4 text-center"
-                            >
-                                <div className="text-xl md:text-3xl font-black font-montserrat tracking-wide mb-1 flex items-center gap-2 justify-center">
-                                    {player.username}
-                                    {player.streak >= 5 && <span title="Racha de Energía">☕</span>}
-                                </div>
-                                <div className="text-lg md:text-2xl font-bold text-gray-300 bg-black/50 px-4 py-1 rounded-full">
-                                    {player.score} pts
-                                </div>
-                            </motion.div>
-
-                            {/* The Bar / Pedestal */}
-                            <div className={`${getBarHeight(index)} w-24 md:w-40 rounded-t-lg border-t-4 border-x-2 shadow-[0_0_30px_rgba(0,0,0,0.5)] ${getBarColor(index)} relative overflow-hidden flex items-end justify-center pb-4`}>
-                                {/* Rank Number */}
-                                <span className="text-6xl font-black text-black/20 select-none">
-                                    {index === 1 ? '1' : index === 0 ? '2' : '3'}
-                                </span>
-
-                                {/* OXXO Stripes Effect */}
-                                <div className="absolute top-0 left-0 w-full h-2 bg-white/30"></div>
+                            <div className={`w-24 h-24 rounded-[1.5rem] flex items-center justify-center text-5xl font-black shadow-lg ${index === 0 ? 'bg-oxxo-yellow text-black border-4 border-white' : 'bg-gray-50 text-dark-gray'}`}>
+                                {index + 1}°
                             </div>
+                            <div className="flex flex-col flex-1">
+                                <span className="text-3xl font-black text-dark-gray uppercase tracking-tighter truncate">{user.username}</span>
+                                <span className="text-oxxo-red font-black text-4xl leading-none">
+                                    {user.score} <span className="text-sm uppercase text-gray-400 font-bold ml-1 tracking-widest">Puntos</span>
+                                </span>
+                            </div>
+                            {index === 0 && <span className="text-6xl animate-bounce">👑</span>}
                         </motion.div>
-                    );
-                })}
+                    ))
+                ) : (
+                    <div className="text-center p-20 opacity-20 italic font-black text-4xl uppercase tracking-tighter">
+                        No hay resultados registrados todavía
+                    </div>
+                )}
             </div>
 
-            {onRestart && (
-                <motion.button
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 2.5 }}
-                    onClick={onRestart}
-                    className="absolute bottom-10 bg-oxxo-red hover:bg-red-600 text-white font-bold py-4 px-12 rounded-full shadow-lg border-2 border-white/20 transition-all active:scale-95"
-                >
-                    SALIR DE OXXO QUIZ
-                </motion.button>
-            )}
+            <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2 }}
+                onClick={onRestart}
+                className="absolute bottom-10 bg-dark-gray text-white font-black py-5 px-16 rounded-full shadow-2xl border-b-8 border-oxxo-red hover:scale-110 active:scale-95 transition-all uppercase tracking-widest text-lg"
+            >
+                SALIR DE OXXO QUIZ
+            </motion.button>
         </div>
     );
-};
+}
 
 export default FinalPodium;

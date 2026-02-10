@@ -9,7 +9,7 @@
 }
 
 body {
-  @apply bg-dark-gray text-white antialiased;
+  @apply bg-gray-50 text-dark-gray antialiased;
 }
 
 /* Custom Scrollbar with OXXO Colors */
@@ -18,11 +18,11 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #0A0A0A;
+  background: #F3F4F6;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #2A2A2A;
+  background: #D1D5DB;
   border-radius: 4px;
 }
 
@@ -66,8 +66,8 @@ body {
 /* Projector Styles with Gaming Enhancement */
 .card-pregunta-proyector {
   border-left: 10px solid #ED1C24;
-  background: linear-gradient(145deg, #1A1A1A, #0A0A0A);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(237, 28, 36, 0.2);
+  background: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 0 20px rgba(237, 28, 36, 0.05);
   transition: all 0.5s ease;
 }
 

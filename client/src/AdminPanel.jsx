@@ -117,17 +117,18 @@ function AdminPanel() {
 
     if (!isConnected) {
         return (
-            <div className="min-h-screen bg-dark-gray flex items-center justify-center p-4">
-                <div className="bg-dark-gray-800 p-10 rounded-[40px] border-2 border-oxxo-red text-center shadow-[0_0_50px_rgba(237,28,36,0.2)] max-w-sm w-full">
-                    <img src="/logo2.svg" className="h-24 mx-auto mb-8 drop-shadow-[0_0_20px_rgba(255,242,0,0.8)] logo-zuynch" />
-                    <h2 className="text-3xl font-black text-white mb-6 tracking-tight">QUIZ ADMIN</h2>
+            <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+                <div className="bg-white p-10 rounded-[40px] border-8 border-oxxo-red text-center shadow-2xl max-w-sm w-full relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-4 bg-oxxo-yellow"></div>
+                    <img src="/logo2.svg" className="h-24 mx-auto mb-8 drop-shadow-md logo-zuynch mt-4" />
+                    <h2 className="text-3xl font-black text-oxxo-red mb-6 tracking-tight uppercase">QUIZ ADMIN</h2>
                     <input
                         value={pin} onChange={e => setPin(e.target.value)}
-                        className="w-full mb-6 p-4 rounded-2xl bg-black/50 text-oxxo-yellow text-center font-black text-3xl border-2 border-transparent focus:border-oxxo-yellow focus:outline-none"
+                        className="w-full mb-6 p-4 rounded-2xl bg-gray-50 text-oxxo-red text-center font-black text-3xl border-2 border-gray-200 focus:border-oxxo-yellow focus:outline-none"
                         placeholder="PIN"
                     />
-                    <button onClick={connectToRoom} className="w-full bg-oxxo-red py-4 rounded-2xl font-black text-white text-xl hover:bg-neon-red shadow-[0_6px_0_rgb(150,0,0)] active:shadow-none active:translate-y-1 transition-all">
-                        ENTRAR
+                    <button onClick={connectToRoom} className="w-full bg-oxxo-red py-4 rounded-2xl font-black text-white text-xl hover:scale-105 shadow-xl active:translate-y-1 transition-all">
+                        ENTRAR MODO DIOS
                     </button>
                 </div>
             </div>
@@ -149,7 +150,7 @@ function AdminPanel() {
     };
 
     return (
-        <div className="min-h-screen bg-dark-gray text-white font-sans flex flex-col">
+        <div className="min-h-screen bg-gray-50 text-dark-gray font-sans flex flex-col">
             <Modal
                 show={modal.show}
                 title={modal.title}
@@ -159,18 +160,18 @@ function AdminPanel() {
             />
 
             {/* Header */}
-            <header className="bg-black/80 backdrop-blur-md p-4 border-b border-white/5 flex justify-between items-center sticky top-0 z-50">
+            <header className="bg-white p-4 border-b-4 border-oxxo-red flex justify-between items-center sticky top-0 z-50 shadow-md">
                 <div className="flex items-center gap-4">
-                    <img src="/logo2.svg" className="h-10 drop-shadow-[0_0_8px_rgba(255,242,0,0.8)]" />
-                    <span className="font-black text-oxxo-yellow border-l border-white/10 pl-4 ml-4 tracking-widest text-sm">QUIZ ADMIN</span>
+                    <img src="/logo2.svg" className="h-10 drop-shadow-sm" />
+                    <span className="font-black text-oxxo-red border-l-2 border-gray-200 pl-4 ml-4 tracking-widest text-sm uppercase">QUIZ MODERADOR</span>
                 </div>
                 <div className="flex items-center gap-4">
                     {/* Total de Jugadores (sin ADMIN) */}
-                    <div className="flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-full border border-gray-700">
+                    <div className="flex items-center gap-3 bg-gray-100 px-5 py-2 rounded-full border border-gray-200">
                         <span className="h-3 w-3 rounded-full bg-green-500 animate-pulse"></span>
                         <div className="flex flex-col">
-                            <span className="font-bold text-lg">{roomUsers.length}</span>
-                            <span className="text-xs text-gray-400 -mt-1">Jugadores</span>
+                            <span className="font-black text-xl text-dark-gray">{roomUsers.length}</span>
+                            <span className="text-[10px] text-gray-500 font-bold -mt-1 uppercase tracking-tighter">Jugadores Conectados</span>
                         </div>
                     </div>
                 </div>
@@ -178,12 +179,12 @@ function AdminPanel() {
 
             <main className="flex-1 p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Control Maestro */}
-                <div className="bg-gray-800 rounded-3xl p-8 border border-gray-700 flex flex-col justify-between shadow-2xl relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-oxxo-red/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
+                <div className="bg-white rounded-3xl p-8 border-2 border-gray-100 flex flex-col justify-between shadow-xl relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-2 bg-oxxo-yellow"></div>
 
                     <div>
-                        <h2 className="text-3xl font-bold mb-2">Control Maestro</h2>
-                        <p className="text-gray-400 mb-8">Administra el flujo del evento en tiempo real.</p>
+                        <h2 className="text-3xl font-black mb-2 text-dark-gray uppercase tracking-tighter">Panel de Control</h2>
+                        <p className="text-gray-500 font-medium mb-8">Administra el flujo del evento en vivo.</p>
                     </div>
 
                     <div className="space-y-4">
@@ -202,20 +203,20 @@ function AdminPanel() {
                         </button>
 
                         <div className="grid grid-cols-2 gap-4">
-                            <button className="py-4 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold text-gray-300">
+                            <button className="py-4 bg-gray-100 hover:bg-gray-200 rounded-xl font-black text-gray-600 transition-colors uppercase text-sm">
                                 ⏳ 10s Timer
                             </button>
                             <button
                                 onClick={() => socket.emit('admin-action', { pin, action: 'show-podium' })}
-                                className="py-4 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold text-gray-300"
+                                className="py-4 bg-gray-100 hover:bg-gray-200 rounded-xl font-black text-gray-600 transition-colors uppercase text-sm"
                             >
                                 🏆 Ver Ganadores
                             </button>
                         </div>
 
                         {/* Question List / Timeline */}
-                        <div className="mt-6 bg-gray-900/50 rounded-xl p-4 border border-gray-600 max-h-60 overflow-y-auto custom-scrollbar">
-                            <h3 className="text-gray-400 font-bold mb-2 text-sm uppercase">Secuencia de Preguntas ({currentQuestionIndex}/{questions.length})</h3>
+                        <div className="mt-8 bg-gray-50 rounded-2xl p-6 border-2 border-gray-100 max-h-60 overflow-y-auto custom-scrollbar">
+                            <h3 className="text-gray-400 font-black mb-4 text-xs uppercase tracking-widest pl-1">Rutas de Preguntas ({currentQuestionIndex}/{questions.length})</h3>
                             {questions.length === 0 ? (
                                 <p className="text-gray-500 italic text-sm">No hay preguntas cargadas.</p>
                             ) : (
@@ -224,12 +225,12 @@ function AdminPanel() {
                                         const isNext = i === currentQuestionIndex;
                                         const isPast = i < currentQuestionIndex;
                                         return (
-                                            <li key={i} className={`p-2 rounded text-sm flex gap-2 ${isNext ? 'bg-gray-700 border-l-4 border-oxxo-red text-white' : isPast ? 'bg-gray-800 text-gray-500 line-through' : 'bg-gray-800 text-gray-400'}`}>
-                                                <span className="font-mono opacity-50">#{i + 1}</span>
+                                            <li key={i} className={`p-4 rounded-xl text-sm font-bold flex gap-3 transition-colors ${isNext ? 'bg-oxxo-red/5 border-l-8 border-oxxo-red text-dark-gray' : isPast ? 'bg-gray-100 text-gray-300' : 'bg-white border border-gray-100 text-gray-400'}`}>
+                                                <span className="font-mono text-oxxo-red opacity-40">#{i + 1}</span>
                                                 <div className="flex-1 truncate">
                                                     {q.pregunta || q.question}
                                                 </div>
-                                                {isNext && <span className="text-xs bg-oxxo-red text-white px-2 py-0.5 rounded font-bold h-fit">SIGUIENTE</span>}
+                                                {isNext && <span className="text-[10px] bg-oxxo-red text-white px-2 py-1 rounded-md font-black tracking-tighter">ACTUAL</span>}
                                             </li>
                                         );
                                     })}
@@ -242,8 +243,8 @@ function AdminPanel() {
                 {/* Visualizador & Podio */}
                 <div className="flex flex-col gap-8">
                     {/* Chart Area */}
-                    <div className="bg-gray-800 p-6 rounded-3xl border border-gray-700 flex-1">
-                        <h3 className="font-bold text-gray-400 mb-4 uppercase tracking-wider text-sm">Distribución de Respuestas</h3>
+                    <div className="bg-white p-8 rounded-[40px] border-2 border-gray-100 flex-1 shadow-xl">
+                        <h3 className="font-black text-gray-400 mb-8 uppercase tracking-widest text-xs pl-2">Distribución de Respuestas</h3>
                         <div className="h-64 flex items-end justify-between px-8 gap-4">
                             {/* Custom Bar Implementation with Tailwind for nicer look than ChartJS sometimes */}
                             {[45, 80, 20, 60].map((h, i) => (
@@ -279,9 +280,9 @@ function AdminPanel() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Pending Column */}
-                    <div className="bg-gray-800/50 rounded-3xl p-6 border border-gray-700">
-                        <h3 className="text-xl font-bold text-gray-400 mb-4 flex justify-between items-center">
-                            PENDIENTES <span className="bg-gray-700 px-3 py-1 rounded-full text-sm text-white">{pendingQuestions.length}</span>
+                    <div className="bg-white rounded-[40px] p-8 border-2 border-gray-100 shadow-xl">
+                        <h3 className="text-xl font-black text-dark-gray mb-6 flex justify-between items-center uppercase tracking-tighter">
+                            POR APROBAR <span className="bg-gray-100 px-4 py-1 rounded-full text-xs text-gray-500 font-black">{pendingQuestions.length}</span>
                         </h3>
                         <div className="space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar pr-2">
                             {pendingQuestions.map(q => (
@@ -313,14 +314,14 @@ function AdminPanel() {
                     </div>
 
                     {/* Approved Column */}
-                    <div className="bg-gray-800/50 rounded-3xl p-6 border border-gray-700">
-                        <h3 className="text-xl font-bold text-oxxo-yellow mb-4 flex justify-between items-center">
-                            <span>EN VIVO (PÚBLICAS) <span className="bg-oxxo-yellow text-black px-3 py-1 rounded-full text-sm font-bold ml-2">{approvedQuestions.length}</span></span>
+                    <div className="bg-white rounded-[40px] p-8 border-2 border-gray-100 shadow-xl">
+                        <h3 className="text-xl font-black text-oxxo-red mb-6 flex justify-between items-center uppercase tracking-tighter">
+                            <span>PREGUNTAS EN VIVO <span className="bg-oxxo-yellow text-black px-4 py-1 rounded-full text-xs font-black ml-2 shadow-sm">{approvedQuestions.length}</span></span>
                             <button
                                 onClick={() => socket.emit('moderator-unfocus')}
-                                className="text-xs bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded-lg transition-colors border border-gray-600"
+                                className="text-[10px] bg-gray-50 hover:bg-gray-100 text-gray-500 px-3 py-2 rounded-xl transition-all border border-gray-200 font-black shadow-sm"
                             >
-                                👁️ Quitar Foco
+                                👁️ QUITAR FOCO
                             </button>
                         </h3>
                         <div className="space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar pr-2">
@@ -360,15 +361,15 @@ function AdminPanel() {
             </section>
 
             {/* Content Management Section */}
-            <section className="p-8 border-t border-gray-800 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <section className="p-8 border-t-2 border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-50/50">
                 {/* New Question Form */}
-                <div className="bg-gray-800 rounded-3xl p-6 border border-gray-700">
-                    <h2 className="text-xl font-bold text-white mb-4">📝 Agregar Nueva Pregunta (Reto)</h2>
+                <div className="bg-white rounded-[40px] p-8 border-2 border-gray-100 shadow-lg">
+                    <h2 className="text-xl font-black text-dark-gray mb-6 uppercase tracking-tighter">📝 Nueva Pregunta de Reto</h2>
                     <NewQuestionForm showModal={showModal} pin={pin} />
                 </div>
                 {/* Excel Import */}
-                <div className="bg-gray-800 rounded-3xl p-6 border border-gray-700">
-                    <h2 className="text-xl font-bold text-white mb-4">📂 Importar Excel (Sala {pin})</h2>
+                <div className="bg-white rounded-[40px] p-8 border-2 border-gray-100 shadow-lg">
+                    <h2 className="text-xl font-black text-dark-gray mb-6 uppercase tracking-tighter">📂 Importar desde Excel (Sala {pin})</h2>
                     <ExcelImport showModal={showModal} pin={pin} />
                 </div>
             </section>

@@ -1,16 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const FlashWinner = ({ winner, onComplete }) => {
-    useEffect(() => {
-        if (winner) {
-            const timer = setTimeout(() => {
-                onComplete();
-            }, 6000); // Display for 6 seconds
-            return () => clearTimeout(timer);
-        }
-    }, [winner, onComplete]);
-
+function FlashWinner({ winner, onComplete }) {
     if (!winner) return null;
 
     return (
@@ -19,56 +10,72 @@ const FlashWinner = ({ winner, onComplete }) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[100] bg-black/90 flex flex-col items-center justify-center overflow-hidden"
+                className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-white/95 backdrop-blur-sm"
             >
-                {/* Background Lightning Flash */}
+                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-oxxo-yellow/20 to-transparent pointer-events-none"></div>
+
+                {/* Lightning Bolt Background Effect */}
                 <motion.div
                     initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: [1, 1.2, 1], opacity: [0, 1, 0, 1, 0.5] }}
-                    transition={{ duration: 0.5, times: [0, 0.2, 0.4, 0.6, 1] }}
-                    className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                    animate={{ scale: [0, 1.2, 1], opacity: [0, 1, 0] }}
+                    transition={{ duration: 0.5, repeat: 2 }}
+                    className="absolute inset-0 flex items-center justify-center text-[40rem] text-oxxo-yellow opacity-20 pointer-events-none select-none"
                 >
-                    <svg className="h-[120vh] text-oxxo-yellow drop-shadow-[0_0_50px_rgba(255,242,0,0.8)]" viewBox="0 0 100 100" preserveAspectRatio="none">
-                        <path d="M40 0 L30 45 L60 45 L50 100 L80 35 L55 35 L65 0 Z" fill="currentColor" />
-                    </svg>
+                    ⚡
                 </motion.div>
 
-                {/* Content */}
-                <div className="relative z-10 flex flex-col items-center text-center p-6">
-                    <img src="/logo2.svg" className="h-24 mb-8 logo-zuynch drop-shadow-[0_0_20px_rgba(255,242,0,0.8)]" alt="OXXO Quiz Logo" />
-
-                    <motion.h2
-                        initial={{ y: 50, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.3 }}
-                        className="text-white text-3xl md:text-4xl font-black uppercase tracking-tight mb-2"
-                    >
-                        ¡CONECTADO A LA VELOCIDAD DE OXXO!
-                    </motion.h2>
-
+                <div className="relative z-10 text-center flex flex-col items-center max-w-2xl w-full">
                     <motion.div
-                        initial={{ scale: 0.5, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ type: 'spring', stiffness: 200, delay: 0.6 }}
-                        className="bg-oxxo-red/20 border-4 border-oxxo-yellow px-12 py-8 rounded-3xl backdrop-blur-md shadow-[0_0_40px_rgba(229,26,34,0.6)] my-8 animate-vibrate"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", damping: 12, stiffness: 200 }}
+                        className="bg-white p-12 rounded-[4rem] border-[12px] border-oxxo-red shadow-2xl relative overflow-hidden"
                     >
-                        <h1 className="text-6xl md:text-8xl font-black text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] font-montserrat">
-                            {winner.username}
-                        </h1>
+                        <div className="absolute top-0 left-0 w-full h-4 bg-oxxo-yellow"></div>
+
+                        <img src="/logo2.svg" alt="OXXO Quiz Logo" className="h-32 mb-10 logo-zuynch drop-shadow-md mx-auto" />
+
+                        <motion.h2
+                            initial={{ y: 50, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.3 }}
+                            className="text-oxxo-red text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4"
+                        >
+                            ¡VELOCIDAD OXXO!
+                        </motion.h2>
+
+                        <motion.div
+                            initial={{ y: 50, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.5 }}
+                            className="flex flex-col items-center"
+                        >
+                            <p className="text-gray-400 font-black text-xl mb-4 tracking-widest uppercase">EL GANADOR ES:</p>
+                            <div className="bg-dark-gray text-white text-5xl md:text-7xl font-black p-10 rounded-[2.5rem] shadow-2xl border-b-8 border-oxxo-yellow min-w-[300px] mb-8 uppercase tracking-tighter">
+                                {winner.username}
+                            </div>
+
+                            <div className="text-oxxo-red font-black text-3xl flex items-center gap-3">
+                                <span className="text-4xl">⚡</span>
+                                🔌 ENERGÍA AL 100%
+                                <span className="text-4xl">⚡</span>
+                            </div>
+                        </motion.div>
                     </motion.div>
 
-                    <motion.p
+                    <motion.button
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: 1 }}
-                        className="text-oxxo-yellow text-2xl md:text-3xl font-bold bg-black/50 px-6 py-2 rounded-full border border-oxxo-yellow"
+                        transition={{ delay: 2 }}
+                        onClick={onComplete}
+                        className="mt-12 bg-oxxo-red text-white py-5 px-16 rounded-full font-black text-2xl shadow-xl hover:scale-110 active:scale-95 transition-all uppercase tracking-tight"
                     >
-                        ⚡ ¡Respondió en solo {winner.time}s!
-                    </motion.p>
+                        CONTINUAR
+                    </motion.button>
                 </div>
             </motion.div>
         </AnimatePresence>
     );
-};
+}
 
 export default FlashWinner;
