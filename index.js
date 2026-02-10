@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: 'Netbios85*',
     database: 'zuynch_db',
     waitForConnections: true,
     connectionLimit: 10,
