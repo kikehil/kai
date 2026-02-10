@@ -56,7 +56,7 @@ const FinalPodium = ({ ranking, onRestart }) => {
                 animate={{ y: 0, opacity: 1 }}
                 className="absolute top-10 flex flex-col items-center"
             >
-                <img src={`http://${window.location.hostname}:3000/logo2.svg`} alt="Kai Logo" className="h-24 drop-shadow-[0_0_20px_rgba(255,242,0,0.6)] animate-pulse" />
+                <img src="/logo2.svg" alt="OXXO Quiz Logo" className="h-24 drop-shadow-[0_0_20px_rgba(255,242,0,0.6)] animate-pulse" />
                 <h1 className="text-4xl font-black mt-4 tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-oxxo-red via-white to-oxxo-yellow">
                     RESULTADOS FINALES
                 </h1>

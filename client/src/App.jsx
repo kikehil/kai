@@ -182,9 +182,9 @@ function App() {
                 <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4">
                     <div className="bg-white text-dark-gray max-w-lg w-full p-8 rounded-3xl text-center border-4 border-oxxo-red relative overflow-hidden">
                         <div className="mb-6 flex justify-center">
-                            <img src="/logo2.svg" alt="Kai Logo" className="h-24 logo-zuynch" />
+                            <img src="/logo2.svg" alt="OXXO Quiz Logo" className="h-24 logo-zuynch" />
                         </div>
-                        <h2 className="text-3xl font-black text-oxxo-red mb-4">¡Bienvenido a Kai!</h2>
+                        <h2 className="text-3xl font-black text-oxxo-red mb-4">¡Bienvenido a OXXO Quiz!</h2>
                         <p className="text-xl font-medium mb-8">Sincronizando la energía de OXXO.<br />Ingresa el PIN del evento para conectar.</p>
                         <button onClick={() => setShowWelcome(false)} className="bg-oxxo-red text-white text-xl font-bold py-4 px-10 rounded-full hover:scale-105 transition-transform">COMENZAR</button>
                     </div>

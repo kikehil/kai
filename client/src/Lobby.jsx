@@ -27,9 +27,9 @@ function Lobby({ socket, pin, roomData }) {
             {/* Header */}
             <div className="mt-10 mb-8 flex flex-col items-center">
                 <img
-                    src="http://localhost:3000/logo2.svg"
+                    src="/logo2.svg"
                     className="h-24 mb-4 logo-zuynch"
-                    alt="Kai Logo"
+                    alt="OXXO Quiz Logo"
                     style={{ filter: "drop-shadow(0 0 5px #FFF200)" }} // Base style, animation in CSS
                 />
                 <div className="bg-gray-800 border-2 border-oxxo-red px-8 py-3 rounded-full shadow-[0_0_20px_rgba(229,26,34,0.3)]">

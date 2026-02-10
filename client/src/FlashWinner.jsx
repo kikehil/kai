@@ -35,7 +35,7 @@ const FlashWinner = ({ winner, onComplete }) => {
 
                 {/* Content */}
                 <div className="relative z-10 flex flex-col items-center text-center p-6">
-                    <img src="http://localhost:3000/logo2.svg" className="h-24 mb-8 logo-kai drop-shadow-[0_0_20px_rgba(255,242,0,0.8)]" />
+                    <img src="/logo2.svg" className="h-24 mb-8 logo-zuynch drop-shadow-[0_0_20px_rgba(255,242,0,0.8)]" alt="OXXO Quiz Logo" />
 
                     <motion.h2
                         initial={{ y: 50, opacity: 0 }}

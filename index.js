@@ -59,7 +59,7 @@ const games = {};
 
 app.get('/api/config', (req, res) => {
     res.json({
-        eventName: 'Kai Event',
+        eventName: 'OXXO Quiz Event',
         colors: { background: '#0A0A0A', primary: '#ED1C24', accent: '#FFF200' },
         logoUrl: '/logo2.svg'
     });
@@ -673,6 +673,6 @@ io.on('connection', (socket) => {
 });
 
 server.listen(3000, '0.0.0.0', () => {
-    console.log('Servidor Kai corriendo en puerto 3000');
+    console.log('Servidor OXXO Quiz corriendo en puerto 3000');
     console.log('Listo para la energía de OXXO');
 });
