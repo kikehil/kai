@@ -244,7 +244,7 @@ function App() {
                 </div>
             )}
 
-            {gameState === 'waiting' && <Lobby socket={socket} pin={user.pin} roomData={roomData} />}
+            {gameState === 'waiting' && <Lobby socket={socket} pin={user.pin} users={roomData.users} />}
 
             {gameState === 'game' && (
                 <div className="flex-1 flex flex-col md:flex-row max-w-7xl mx-auto w-full p-4 gap-6">

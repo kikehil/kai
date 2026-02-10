@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-function Lobby({ pin, users }) {
+function Lobby({ pin, users = [] }) {
     const [dots, setDots] = useState('');
 
     useEffect(() => {
