@@ -373,7 +373,7 @@ function AdminPanel() {
                 </div>
                 {/* Excel Import */}
                 <div className="bg-gray-800 rounded-3xl p-6 border border-gray-700">
-                    <h2 className="text-xl font-bold text-white mb-4">📂 Importar Excel</h2>
+                    <h2 className="text-xl font-bold text-white mb-4">📂 Importar Excel (Sala {pin})</h2>
                     <ExcelImport showModal={showModal} pin={pin} />
                 </div>
             </section>
