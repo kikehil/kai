@@ -164,7 +164,7 @@ function App() {
     const myData = roomData.users.find(u => u.id === socket.id) || { score: 0, coins: 0 };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-dark-gray via-dark-gray-800 to-dark-gray text-white font-sans overflow-hidden flex flex-col relative">
+        <div className="min-h-screen bg-[#F0F2F5] text-dark-gray font-sans overflow-hidden flex flex-col relative">
             <FlashWinner winner={flashWinner} onComplete={() => setFlashWinner(null)} />
 
             <Modal
@@ -225,20 +225,25 @@ function App() {
             )}
 
             {gameState === 'lobby' && (
-                <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gray-50">
-                    <div className="w-full max-w-md bg-white text-dark-gray p-8 rounded-[35px] shadow-2xl border-4 border-oxxo-red relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-1 bg-oxxo-yellow blur-sm"></div>
-                        <h2 className="text-3xl font-black mb-8 text-center text-oxxo-red tracking-tight uppercase">INGRESA AL JUEGO</h2>
-                        <div className="space-y-6">
+                <div className="flex-1 flex flex-col items-center justify-center p-6 bg-[#F0F2F5]">
+                    {/* Header Decoration */}
+                    <div className="fixed top-0 left-0 w-full h-3 bg-oxxo-red z-10"></div>
+
+                    <div className="w-full max-w-sm bg-white text-dark-gray p-8 rounded-[3rem] shadow-2xl border-x-2 border-b-8 border-oxxo-red relative overflow-hidden transition-all hover:shadow-oxxo-red/10">
+                        <div className="mb-8 flex justify-center">
+                            <img src="/logo2.svg" className="h-24 logo-zuynch" />
+                        </div>
+                        <h2 className="text-2xl font-black mb-8 text-center text-dark-gray tracking-tighter uppercase">¡Conecta tu Energía!</h2>
+                        <div className="space-y-5">
                             <div>
-                                <label className="block text-xs font-black mb-2 ml-1 text-gray-400 font-montserrat uppercase tracking-widest">PIN DE SALA</label>
-                                <input className="w-full p-5 bg-gray-100 rounded-2xl text-center text-4xl font-black border-2 border-transparent focus:border-oxxo-yellow focus:ring-0 focus:outline-none transition-all placeholder-gray-300 text-oxxo-red" placeholder="0000" value={user.pin} onChange={e => setUser({ ...user, pin: e.target.value })} />
+                                <label className="block text-[10px] font-black mb-2 ml-1 text-gray-400 uppercase tracking-[0.2em]">PIN DE SALA</label>
+                                <input className="w-full p-4 bg-gray-50 rounded-2xl text-center text-4xl font-black border-2 border-gray-100 focus:border-oxxo-yellow focus:ring-4 focus:ring-oxxo-yellow/10 focus:outline-none transition-all placeholder-gray-200 text-oxxo-red" placeholder="0000" value={user.pin} onChange={e => setUser({ ...user, pin: e.target.value })} />
                             </div>
                             <div>
-                                <label className="block text-xs font-black mb-2 ml-1 text-gray-400 font-montserrat uppercase tracking-widest">TU NOMBRE</label>
-                                <input className="w-full p-5 bg-gray-100 rounded-2xl text-center text-2xl font-black border-2 border-transparent focus:border-oxxo-red focus:ring-0 focus:outline-none transition-all placeholder-gray-300" placeholder="Jugador 1" value={user.username} onChange={e => setUser({ ...user, username: e.target.value })} />
+                                <label className="block text-[10px] font-black mb-2 ml-1 text-gray-400 uppercase tracking-[0.2em]">TU NOMBRE</label>
+                                <input className="w-full p-4 bg-gray-50 rounded-2xl text-center text-xl font-black border-2 border-gray-100 focus:border-oxxo-red focus:ring-4 focus:ring-oxxo-red/10 focus:outline-none transition-all placeholder-gray-200" placeholder="Ej: OXXO Fan" value={user.username} onChange={e => setUser({ ...user, username: e.target.value })} />
                             </div>
-                            <button onClick={joinGame} className="w-full py-5 mt-4 bg-oxxo-red text-white rounded-2xl font-black text-2xl active:scale-95 transition-all shadow-[0_8px_0_rgb(150,0,0)] active:shadow-none translate-y-0 active:translate-y-2 hover:shadow-xl">ENTRAR</button>
+                            <button onClick={joinGame} className="w-full py-5 mt-4 bg-oxxo-red text-white rounded-2xl font-black text-xl active:scale-95 transition-all shadow-xl hover:shadow-oxxo-red/20 uppercase tracking-widest">ENTRAR</button>
                         </div>
                     </div>
                 </div>
