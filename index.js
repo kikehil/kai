@@ -60,7 +60,7 @@ const games = {};
 app.get('/api/config', (req, res) => {
     res.json({
         eventName: 'Kai Event',
-        colors: { background: '#1A1A1A', primary: '#E51A22', accent: '#FFF200' },
+        colors: { background: '#0A0A0A', primary: '#ED1C24', accent: '#FFF200' },
         logoUrl: '/logo2.svg'
     });
 });

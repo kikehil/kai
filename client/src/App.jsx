@@ -182,7 +182,7 @@ function App() {
                 <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4">
                     <div className="bg-white text-dark-gray max-w-lg w-full p-8 rounded-3xl text-center border-4 border-oxxo-red relative overflow-hidden">
                         <div className="mb-6 flex justify-center">
-                            <img src={`//${window.location.hostname}:3000/logo2.svg`} alt="Kai Logo" className="h-24" />
+                            <img src="/logo2.svg" alt="Kai Logo" className="h-24 logo-zuynch" />
                         </div>
                         <h2 className="text-3xl font-black text-oxxo-red mb-4">¡Bienvenido a Kai!</h2>
                         <p className="text-xl font-medium mb-8">Sincronizando la energía de OXXO.<br />Ingresa el PIN del evento para conectar.</p>
@@ -215,7 +215,7 @@ function App() {
                 <header className="py-8 flex justify-center items-center relative z-10 transition-all">
                     <div className="relative group cursor-pointer">
                         {branding ? (
-                            <img src={`//${window.location.hostname}:3000${branding.logoUrl}`} alt="Zuynch Logo" className="h-20 drop-shadow-[0_0_15px_rgba(255,242,0,0.6)]" />
+                            <img src={branding.logoUrl} alt="Zuynch Logo" className="h-20 logo-zuynch drop-shadow-[0_0_15px_rgba(255,242,0,0.8)]" />
                         ) : (
                             <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-white">zuynch</h1>
                         )}
@@ -236,7 +236,7 @@ function App() {
                                 <label className="block text-sm font-bold mb-1 ml-1">TU NOMBRE</label>
                                 <input className="w-full p-4 bg-gray-100 rounded-xl text-center text-xl font-bold border-2 border-transparent focus:border-oxxo-yellow focus:ring-0 focus:outline-none transition-all placeholder-gray-400" placeholder="Jugador 1" value={user.username} onChange={e => setUser({ ...user, username: e.target.value })} />
                             </div>
-                            <button onClick={joinGame} className="w-full py-4 mt-4 bg-oxxo-red text-white rounded-xl font-bold text-xl hover:brightness-110 active:scale-95 transition-all shadow-[0_4px_0_rgb(150,0,0)] active:shadow-none translate-y-0 active:translate-y-1">ENTRAR</button>
+                            <button onClick={joinGame} className="w-full py-4 mt-4 bg-oxxo-red text-white rounded-xl font-bold text-xl hover:brightness-110 active:scale-95 transition-all shadow-[0_4px_0_rgb(150,0,0)] active:shadow-none translate-y-0 active:translate-y-1 hover:shadow-[0_0_20px_rgba(237,28,36,0.6)]">ENTRAR</button>
                         </div>
                     </div>
                 </div>
