@@ -41,9 +41,9 @@ const FlashWinner = ({ winner, onComplete }) => {
                         initial={{ y: 50, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 0.3 }}
-                        className="text-white text-3xl md:text-4xl font-bold uppercase tracking-widest mb-2"
+                        className="text-white text-3xl md:text-4xl font-black uppercase tracking-tight mb-2"
                     >
-                        ¡Conectado a la velocidad del rayo!
+                        ¡CONECTADO A LA VELOCIDAD DE OXXO!
                     </motion.h2>
 
                     <motion.div

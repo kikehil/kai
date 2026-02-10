@@ -117,16 +117,16 @@ function AdminPanel() {
 
     if (!isConnected) {
         return (
-            <div className="min-h-screen bg-dark-gray flex items-center justify-center">
-                <div className="bg-gray-800 p-8 rounded-2xl border border-gray-700 text-center">
-                    <img src={`//${window.location.hostname}:3000/logo.svg`} className="h-16 mx-auto mb-6 drop-shadow-[0_0_10px_rgba(255,242,0,0.5)]" />
-                    <h2 className="text-2xl font-bold text-white mb-4">God Mode Login</h2>
+            <div className="min-h-screen bg-dark-gray flex items-center justify-center p-4">
+                <div className="bg-dark-gray-800 p-10 rounded-[40px] border-2 border-oxxo-red text-center shadow-[0_0_50px_rgba(237,28,36,0.2)] max-w-sm w-full">
+                    <img src="/logo2.svg" className="h-24 mx-auto mb-8 drop-shadow-[0_0_20px_rgba(255,242,0,0.8)] logo-zuynch" />
+                    <h2 className="text-3xl font-black text-white mb-6 tracking-tight">QUIZ ADMIN</h2>
                     <input
                         value={pin} onChange={e => setPin(e.target.value)}
-                        className="w-full mb-4 p-3 rounded bg-gray-700 text-white text-center font-bold text-xl"
+                        className="w-full mb-6 p-4 rounded-2xl bg-black/50 text-oxxo-yellow text-center font-black text-3xl border-2 border-transparent focus:border-oxxo-yellow focus:outline-none"
                         placeholder="PIN"
                     />
-                    <button onClick={connectToRoom} className="w-full bg-oxxo-red py-3 rounded font-bold text-white hover:bg-red-600 transition">
+                    <button onClick={connectToRoom} className="w-full bg-oxxo-red py-4 rounded-2xl font-black text-white text-xl hover:bg-neon-red shadow-[0_6px_0_rgb(150,0,0)] active:shadow-none active:translate-y-1 transition-all">
                         ENTRAR
                     </button>
                 </div>
@@ -159,10 +159,10 @@ function AdminPanel() {
             />
 
             {/* Header */}
-            <header className="bg-black/50 p-4 border-b border-gray-800 flex justify-between items-center">
+            <header className="bg-black/80 backdrop-blur-md p-4 border-b border-white/5 flex justify-between items-center sticky top-0 z-50">
                 <div className="flex items-center gap-4">
-                    <img src={`//${window.location.hostname}:3000/logo.svg`} className="h-10 drop-shadow-[0_0_8px_rgba(255,242,0,0.6)]" />
-                    <span className="font-bold text-gray-400 border-l border-gray-600 pl-4 ml-4">GOD MODE</span>
+                    <img src="/logo2.svg" className="h-10 drop-shadow-[0_0_8px_rgba(255,242,0,0.8)]" />
+                    <span className="font-black text-oxxo-yellow border-l border-white/10 pl-4 ml-4 tracking-widest text-sm">QUIZ ADMIN</span>
                 </div>
                 <div className="flex items-center gap-4">
                     {/* Total de Jugadores (sin ADMIN) */}

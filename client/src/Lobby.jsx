@@ -69,9 +69,9 @@ function Lobby({ socket, pin, roomData }) {
             {/* Footer Status */}
             <div className="mt-auto mb-10 text-center">
                 <p className="text-2xl font-bold text-gray-400 animate-pulse">
-                    Sincronizando energía{dots}
+                    Sincronizando energía de <span className="text-oxxo-yellow">OXXO</span>{dots}
                 </p>
-                <p className="text-sm text-gray-600 mt-2 font-bold uppercase tracking-widest">Esperando al moderador</p>
+                <p className="text-sm text-gray-600 mt-2 font-bold uppercase tracking-widest">Esperando inicio de OXXO Quiz</p>
             </div>
 
         </div>

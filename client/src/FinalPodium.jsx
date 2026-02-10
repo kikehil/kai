@@ -117,7 +117,7 @@ const FinalPodium = ({ ranking, onRestart }) => {
                     onClick={onRestart}
                     className="absolute bottom-10 bg-oxxo-red hover:bg-red-600 text-white font-bold py-4 px-12 rounded-full shadow-lg border-2 border-white/20 transition-all active:scale-95"
                 >
-                    FINALIZAR SINCRONIZACIÓN
+                    SALIR DE OXXO QUIZ
                 </motion.button>
             )}
         </div>

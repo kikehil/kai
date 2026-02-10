@@ -4,8 +4,12 @@
 
 @layer utilities {
   .frozen-overlay {
-    @apply fixed inset-0 bg-blue-300/50 z-50 flex items-center justify-center backdrop-blur-sm pointer-events-none;
+    @apply fixed inset-0 bg-oxxo-red/40 z-50 flex items-center justify-center backdrop-blur-md pointer-events-none;
   }
+}
+
+body {
+  @apply bg-dark-gray text-white antialiased;
 }
 
 /* Custom Scrollbar with OXXO Colors */

@@ -179,14 +179,15 @@ function App() {
             {gameState === 'podium' && <FinalPodium ranking={podiumData} onRestart={() => window.location.reload()} />}
 
             {showWelcome && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4">
-                    <div className="bg-white text-dark-gray max-w-lg w-full p-8 rounded-3xl text-center border-4 border-oxxo-red relative overflow-hidden">
-                        <div className="mb-6 flex justify-center">
-                            <img src="/logo2.svg" alt="OXXO Quiz Logo" className="h-24 logo-zuynch" />
+                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 p-4 backdrop-blur-md">
+                    <div className="bg-dark-gray-800 text-white max-w-lg w-full p-8 rounded-[40px] text-center border-4 border-oxxo-red relative overflow-hidden shadow-[0_0_50px_rgba(237,28,36,0.4)]">
+                        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-oxxo-red via-oxxo-yellow to-oxxo-red"></div>
+                        <div className="mb-6 flex justify-center mt-4">
+                            <img src="/logo2.svg" alt="OXXO Quiz Logo" className="h-32 logo-zuynch drop-shadow-[0_0_20px_rgba(255,242,0,0.8)]" />
                         </div>
-                        <h2 className="text-3xl font-black text-oxxo-red mb-4">¡Bienvenido a OXXO Quiz!</h2>
-                        <p className="text-xl font-medium mb-8">Sincronizando la energía de OXXO.<br />Ingresa el PIN del evento para conectar.</p>
-                        <button onClick={() => setShowWelcome(false)} className="bg-oxxo-red text-white text-xl font-bold py-4 px-10 rounded-full hover:scale-105 transition-transform">COMENZAR</button>
+                        <h2 className="text-4xl font-black text-white mb-4 tracking-tight">¡Bienvenido a <span className="text-oxxo-yellow">OXXO Quiz!</span></h2>
+                        <p className="text-xl font-medium mb-8 text-gray-300">Sincronizando la energía de OXXO.<br />Ingresa el PIN del evento para conectar.</p>
+                        <button onClick={() => setShowWelcome(false)} className="bg-oxxo-red text-white text-2xl font-black py-4 px-12 rounded-full hover:scale-105 hover:bg-neon-red transition-all shadow-[0_0_30px_rgba(237,28,36,0.6)]">COMENZAR</button>
                     </div>
                 </div>
             )}
@@ -225,18 +226,19 @@ function App() {
 
             {gameState === 'lobby' && (
                 <div className="flex-1 flex flex-col items-center justify-center p-6 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-dark-gray-700 via-dark-gray-800 to-dark-gray">
-                    <div className="w-full max-w-md bg-white text-dark-gray p-8 rounded-3xl shadow-2xl border-4 border-oxxo-red">
-                        <h2 className="text-2xl font-bold mb-6 text-center text-oxxo-red">INGRESA AL JUEGO</h2>
-                        <div className="space-y-4">
+                    <div className="w-full max-w-md bg-dark-gray-800 text-white p-8 rounded-[35px] shadow-[0_20px_50px_rgba(0,0,0,0.8)] border-2 border-oxxo-red/30 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-oxxo-yellow/5 rounded-full blur-3xl"></div>
+                        <h2 className="text-3xl font-black mb-8 text-center text-white tracking-tight">INGRESA AL <span className="text-oxxo-red">JUEGO</span></h2>
+                        <div className="space-y-6">
                             <div>
-                                <label className="block text-sm font-bold mb-1 ml-1">PIN DE SALA</label>
-                                <input className="w-full p-4 bg-gray-100 rounded-xl text-center text-2xl font-bold border-2 border-transparent focus:border-oxxo-yellow focus:ring-0 focus:outline-none transition-all placeholder-gray-400" placeholder="0000" value={user.pin} onChange={e => setUser({ ...user, pin: e.target.value })} />
+                                <label className="block text-xs font-black mb-2 ml-1 text-gray-400 uppercase tracking-widest">PIN DE SALA</label>
+                                <input className="w-full p-5 bg-black/40 rounded-2xl text-center text-4xl font-black border-2 border-transparent focus:border-oxxo-yellow focus:ring-0 focus:outline-none transition-all placeholder-gray-800 text-oxxo-yellow" placeholder="0000" value={user.pin} onChange={e => setUser({ ...user, pin: e.target.value })} />
                             </div>
                             <div>
-                                <label className="block text-sm font-bold mb-1 ml-1">TU NOMBRE</label>
-                                <input className="w-full p-4 bg-gray-100 rounded-xl text-center text-xl font-bold border-2 border-transparent focus:border-oxxo-yellow focus:ring-0 focus:outline-none transition-all placeholder-gray-400" placeholder="Jugador 1" value={user.username} onChange={e => setUser({ ...user, username: e.target.value })} />
+                                <label className="block text-xs font-black mb-2 ml-1 text-gray-400 uppercase tracking-widest">TU NOMBRE</label>
+                                <input className="w-full p-5 bg-black/40 rounded-2xl text-center text-2xl font-black border-2 border-transparent focus:border-oxxo-red focus:ring-0 focus:outline-none transition-all placeholder-gray-800" placeholder="Jugador 1" value={user.username} onChange={e => setUser({ ...user, username: e.target.value })} />
                             </div>
-                            <button onClick={joinGame} className="w-full py-4 mt-4 bg-oxxo-red text-white rounded-xl font-bold text-xl hover:brightness-110 active:scale-95 transition-all shadow-[0_4px_0_rgb(150,0,0)] active:shadow-none translate-y-0 active:translate-y-1 hover:shadow-[0_0_20px_rgba(237,28,36,0.6)]">ENTRAR</button>
+                            <button onClick={joinGame} className="w-full py-5 mt-4 bg-oxxo-red text-white rounded-2xl font-black text-2xl hover:bg-neon-red active:scale-95 transition-all shadow-[0_8px_0_rgb(150,0,0)] active:shadow-none translate-y-0 active:translate-y-2 hover:shadow-[0_0_30px_rgba(237,28,36,0.6)]">ENTRAR</button>
                         </div>
                     </div>
                 </div>
@@ -262,21 +264,24 @@ function App() {
                                     </div>
                                 </div>
                                 {question ? (
-                                    <div className={`bg-white text-dark-gray p-8 rounded-3xl shadow-xl flex-1 flex flex-col justify-center transition-all duration-500 ${flashCorrect ? 'ring-8 ring-oxxo-yellow scale-[1.02]' : ''}`}>
+                                    <div className={`bg-dark-gray-800 text-white p-8 rounded-[40px] shadow-2xl flex-1 flex flex-col justify-center transition-all duration-500 border-2 border-oxxo-red/20 relative overflow-hidden ${flashCorrect ? 'ring-8 ring-oxxo-yellow scale-[1.02]' : ''}`}>
+                                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-oxxo-red via-oxxo-yellow to-oxxo-red opacity-50"></div>
 
-                                        <div className="flex justify-between items-center mb-6">
-                                            <h2 className="text-2xl md:text-3xl font-bold text-center leading-tight flex-1">{question.question_text}</h2>
-                                            <div className="ml-4 flex-shrink-0">
+                                        <div className="flex justify-between items-center mb-8">
+                                            <h2 className="text-2xl md:text-3xl font-black text-center leading-tight flex-1 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">{question.question_text}</h2>
+                                            <div className="ml-6 flex-shrink-0">
                                                 {/* Force 10 seconds as requested. Key ensures reset on new question */}
                                                 <CircularTimer key={question.id} duration={10} onComplete={handleTimeout} />
                                             </div>
                                         </div>
 
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
                                             {[{ label: question.option_a, val: 'a' }, { label: question.option_b, val: 'b' }, { label: question.option_c, val: 'c' }, { label: question.option_d, val: 'd' }].map((opt, idx) => (
-                                                <button key={opt.val} disabled={isFrozen} onClick={() => submitAnswer(opt.val === question.correct_option)} className={`group relative p-6 rounded-2xl text-lg font-bold text-left transition-all border-2 border-gray-100 hover:border-oxxo-red hover:bg-red-50 ${isFrozen ? 'opacity-50 cursor-not-allowed grayscale' : 'active:scale-95'}`}>
-                                                    <span className="inline-block w-8 h-8 rounded-full bg-gray-200 text-center leading-8 mr-3 group-hover:bg-oxxo-red group-hover:text-white transition-colors">{['A', 'B', 'C', 'D'][idx]}</span>
-                                                    {opt.label}
+                                                <button key={opt.val} disabled={isFrozen} onClick={() => submitAnswer(opt.val === question.correct_option)} className={`group relative p-6 rounded-2xl text-xl font-black text-left transition-all border-2 border-gray-700 hover:border-oxxo-yellow hover:bg-oxxo-yellow/10 ${isFrozen ? 'opacity-50 cursor-not-allowed grayscale' : 'active:scale-95'}`}>
+                                                    <span className="inline-block w-10 h-10 rounded-xl bg-gray-700 text-center leading-10 mr-4 group-hover:bg-oxxo-yellow group-hover:text-black transition-colors font-mono">
+                                                        {['A', 'B', 'C', 'D'][idx]}
+                                                    </span>
+                                                    <span className="text-gray-100 group-hover:text-oxxo-yellow transition-colors">{opt.label}</span>
                                                 </button>
                                             ))}
                                         </div>
